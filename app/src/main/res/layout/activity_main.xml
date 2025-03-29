@@ -10,7 +10,7 @@
 
     <androidx.fragment.app.FragmentContainerView
         android:id="@+id/container"
-        android:name="com.example.coursework.GalleryFragment"
+        android:name="com.example.coursework.SearchFragment"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1"/>
@@ -20,7 +20,10 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="bottom"
-        app:itemTextColor="@color/grey"
-        app:menu="@menu/bottom_navigation" />
+        app:itemIconTint="@drawable/bottom_nav_selector"
+        app:itemTextColor="@drawable/bottom_nav_selector"
+        app:itemActiveIndicatorStyle="@android:color/transparent"
+        app:itemRippleColor="@android:color/transparent"
+        app:menu="@menu/bottom_navigation"/>
 
 </LinearLayout>
