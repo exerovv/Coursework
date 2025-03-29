@@ -1,0 +1,7 @@
+<resources>
+    <string name="app_name">Coursework</string>
+    <string name="favorites">Favorites</string>
+    <string name="search">Search</string>
+    <string name="offline">Offline</string>
+    <string name="profile">Profile</string>
+</resources>
