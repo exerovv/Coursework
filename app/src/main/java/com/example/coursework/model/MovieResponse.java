@@ -1,4 +1,4 @@
-package com.example.coursework.api;
+package com.example.coursework.model;
 
 import com.google.gson.annotations.SerializedName;
 

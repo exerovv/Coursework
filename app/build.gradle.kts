@@ -39,7 +39,18 @@ dependencies {
 
     implementation(libs.retrofit)
     implementation(libs.gson)
-    implementation(libs.logging)
+    implementation(libs.gson.converter)
+    implementation(libs.rxjava.adapter)
+
+    implementation(libs.glide)
+
+    implementation(libs.pagging)
+
+    implementation(libs.viewmodel)
+    implementation(libs.livedata)
+
+    implementation(libs.rxjava)
+    implementation(libs.rxjava.android)
 
     testImplementation(libs.junit)
     androidTestImplementation(libs.ext.junit)

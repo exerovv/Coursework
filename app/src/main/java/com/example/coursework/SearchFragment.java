@@ -3,53 +3,50 @@ package com.example.coursework;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.ViewModelProvider;
+import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-
-import com.example.coursework.api.Movie;
-import com.example.coursework.api.MovieRepository;
-import com.example.coursework.api.MovieResponse;
-import com.example.coursework.api.TmdbApi;
-
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
+import android.widget.Toast;
 
 public class SearchFragment extends Fragment {
-    private static final String API_KEY = "4b104e9ab7bbf8b901f150ea9dd1eeee";
+    private MovieViewModel movieViewModel;
+    private RecyclerView recyclerView;
+    private MovieAdapter adapter;
 
     public SearchFragment() {}
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        TmdbApi service = MovieRepository.getClient().create(TmdbApi.class);
-        Call<MovieResponse> call = service.loadMovies(API_KEY);
-        call.enqueue(new Callback<>() {
-            @Override
-            public void onResponse(@NonNull Call<MovieResponse> call, @NonNull Response<MovieResponse> response) {
-                if (response.isSuccessful() && response.body() != null) {
-                    for (Movie movie : response.body().getMovies()) {
-                        Log.d("MOVIE", "Title: " + movie.getTitle());
-                    }
-                } else {
-                    Log.e("API_ERROR", "Response not successful");
-                }
-            }
-
-            @Override
-            public void onFailure(@NonNull Call<MovieResponse> call, @NonNull Throwable t) {
-                Log.e("API_ERROR", "Error: " + t.getMessage(), t);
-            }
-        });
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.fragment_search, container, false);
+        View view = inflater.inflate(R.layout.fragment_search, container, false);
+        recyclerView = view.findViewById(R.id.recycler_view);
+        recyclerView.setLayoutManager(new GridLayoutManager(requireContext(), 2));
+        adapter = new MovieAdapter();
+        recyclerView.setAdapter(adapter);
+        return view;
+    }
+
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        movieViewModel = new ViewModelProvider(this).get(MovieViewModel.class);
+        movieViewModel.getMoviesLiveData().observe(getViewLifecycleOwner(), movies -> {
+                    Log.d("MOVIE", "Фильмов загружено: " + movies.size());
+                    adapter.setMovies(movies);
+                });
+
+        movieViewModel.getErrorLiveData().observe(getViewLifecycleOwner(), error -> Toast.makeText(requireContext(), error, Toast.LENGTH_SHORT).show());
+        movieViewModel.fetchPopularMovies(1);
     }
 }

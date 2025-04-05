@@ -22,7 +22,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:autofillHints=""
-            android:hint="Login"
+            android:hint="@string/login"
             android:ems="10"
             android:inputType="textEmailAddress"
             android:padding="8dp"/>
@@ -32,7 +32,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:autofillHints=""
-            android:hint="Password"
+            android:hint="@string/password"
             android:ems="10"
             android:inputType="textPassword"
             android:padding="8dp"/>
@@ -41,7 +41,7 @@
             android:id="@+id/button"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Войти"
+            android:text="@string/log_in"
             android:padding="8dp" />
 
     </LinearLayout>

@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="favorites">Избранные</string>
+    <string name="search">Поиск</string>
+    <string name="offline">Загрузки</string>
+    <string name="profile">Профиль</string>
+    <string name="login">Логин</string>
+    <string name="password">Пароль</string>
+    <string name="log_in">Войти</string>
+    <string name="popular">Популярное</string>
+    <string name="poster_of_movie">Постер фильма</string>
+</resources>
