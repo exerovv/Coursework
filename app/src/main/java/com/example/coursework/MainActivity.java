@@ -16,7 +16,6 @@ public class MainActivity extends AppCompatActivity {
 
         bottomNavigationView.setOnItemSelectedListener(item -> {
             if (item.getItemId() == R.id.favorites){
-
                 replaceFragment(new FavoritesFragment());
             }
             else if (item.getItemId() == R.id.search){

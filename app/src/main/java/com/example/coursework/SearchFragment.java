@@ -6,21 +6,24 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
-import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.DiffUtil;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
+import com.example.coursework.databinding.FragmentSearchBinding;
+import com.example.coursework.utils.MovieAdapter;
+import com.example.coursework.utils.MovieDiffUtils;
+
 public class SearchFragment extends Fragment {
-    private MovieViewModel movieViewModel;
-    private RecyclerView recyclerView;
+    private FragmentSearchBinding binding;
     private MovieAdapter adapter;
 
-    public SearchFragment() {}
+    public SearchFragment() {
+    }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -28,25 +31,36 @@ public class SearchFragment extends Fragment {
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_search, container, false);
-        recyclerView = view.findViewById(R.id.recycler_view);
-        recyclerView.setLayoutManager(new GridLayoutManager(requireContext(), 2));
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        binding = FragmentSearchBinding.inflate(inflater, container, false);
         adapter = new MovieAdapter();
-        recyclerView.setAdapter(adapter);
-        return view;
+        adapter.setStateRestorationPolicy(RecyclerView.Adapter.StateRestorationPolicy.PREVENT_WHEN_EMPTY);
+        binding.recyclerView.setAdapter(adapter);
+        return binding.getRoot();
     }
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        movieViewModel = new ViewModelProvider(this).get(MovieViewModel.class);
-        movieViewModel.getMoviesLiveData().observe(getViewLifecycleOwner(), movies -> {
-                    Log.d("MOVIE", "Фильмов загружено: " + movies.size());
-                    adapter.setMovies(movies);
-                });
+        MovieViewModel movieViewModel = new ViewModelProvider(this).get(MovieViewModel.class);
+        movieViewModel.state.observe(getViewLifecycleOwner(), state -> {
+            if (state.error != null) {
+                Toast.makeText(requireContext(), state.error, Toast.LENGTH_SHORT).show();
+            }
+            if (state.movies != null) {
+                DiffUtil.Callback util = new MovieDiffUtils(adapter.movies, state.movies);
+                DiffUtil.DiffResult diffResult = DiffUtil.calculateDiff(util);
+                adapter.setMovies(state.movies);
+                diffResult.dispatchUpdatesTo(adapter);
+            }
+        });
 
-        movieViewModel.getErrorLiveData().observe(getViewLifecycleOwner(), error -> Toast.makeText(requireContext(), error, Toast.LENGTH_SHORT).show());
-        movieViewModel.fetchPopularMovies(1);
+        movieViewModel.fetchPopularMovies(2);
+    }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        binding = null;
     }
 }
