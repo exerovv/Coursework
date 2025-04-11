@@ -7,9 +7,17 @@ import java.util.List;
 public class MovieResponse {
     @SerializedName("results")
     private List<Movie> movies;
+    @SerializedName("total_pages")
+    private int totalPages;
+    @SerializedName("page")
+    private int page;
 
-    public MovieResponse(List<Movie> movies) {
-        this.movies = movies;
+    public int getPage() {
+        return page;
+    }
+
+    public int getTotalPages() {
+        return totalPages;
     }
 
     public List<Movie> getMovies() {

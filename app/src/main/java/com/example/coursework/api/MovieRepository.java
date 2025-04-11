@@ -1,10 +1,8 @@
 package com.example.coursework.api;
-import com.example.coursework.model.Movie;
 import com.example.coursework.model.MovieResponse;
 
-import java.util.List;
-
 import io.reactivex.rxjava3.core.Single;
+import okhttp3.OkHttpClient;
 import retrofit2.Retrofit;
 import retrofit2.adapter.rxjava3.RxJava3CallAdapterFactory;
 import retrofit2.converter.gson.GsonConverterFactory;
@@ -26,9 +24,8 @@ public class MovieRepository {
         }
     }
 
-    public Single<List<Movie>> fetchPopularMovies(@Query("page") int page){
+    public Single<MovieResponse> fetchPopularMovies(@Query("page") int page){
         return tmdbApi.fetchPopularMovies(API_KEY, page)
-                .map(MovieResponse::getMovies)
                 .onErrorResumeNext(Single::error);
     }
 }

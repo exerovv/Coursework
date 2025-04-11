@@ -1,4 +1,4 @@
-package com.example.coursework;
+package com.example.coursework.ui;
 
 import android.os.Bundle;
 
@@ -8,8 +8,11 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-public class ProfileFragment extends Fragment {
-    public ProfileFragment() {}
+import com.example.coursework.R;
+
+public class AuthFragment extends Fragment {
+
+    public AuthFragment() {}
 
     @Override
     public void onCreate(Bundle savedInstanceState) {

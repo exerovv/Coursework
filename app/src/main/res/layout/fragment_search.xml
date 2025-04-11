@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    tools:context=".SearchFragment"
+    tools:context=".ui.SearchFragment"
     android:orientation="vertical"
     android:padding="8dp">
 
@@ -16,6 +16,13 @@
         android:textSize="20sp"
         android:padding="8dp"/>
 
+    <com.google.android.material.progressindicator.LinearProgressIndicator
+        android:id="@+id/prepend_progress"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:indeterminate="true"/>
+
+
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recycler_view"
         android:layout_width="match_parent"
@@ -24,5 +31,11 @@
         tools:listitem="@layout/list_item"
         app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
         app:spanCount="2"/>
+
+    <com.google.android.material.progressindicator.LinearProgressIndicator
+        android:id="@+id/append_progress"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:indeterminate="true"/>
 
 </LinearLayout>

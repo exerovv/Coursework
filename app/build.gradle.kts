@@ -41,18 +41,24 @@ dependencies {
     implementation(libs.activity)
     implementation(libs.constraintlayout)
 
+    //Retrofit
     implementation(libs.retrofit)
     implementation(libs.gson)
     implementation(libs.gson.converter)
     implementation(libs.rxjava.adapter)
 
+    //Glide
     implementation(libs.glide)
 
-    implementation(libs.pagging)
+    //Paging
+    implementation(libs.paging)
+    implementation(libs.rxjava.paging)
 
+    //ViewModel and LiveData
     implementation(libs.viewmodel)
     implementation(libs.livedata)
 
+    //RxJava
     implementation(libs.rxjava)
     implementation(libs.rxjava.android)
 

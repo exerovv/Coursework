@@ -10,7 +10,7 @@ constraintlayout = "2.2.1"
 retrofit = "2.11.0"
 glide = "4.16.0"
 gson = "2.12.0"
-pagging = "3.3.6"
+paging = "3.3.6"
 lifecycle = "2.8.7"
 rxjava = "3.1.10"
 rxjavaAndroid = "3.0.2"
@@ -30,7 +30,8 @@ gson = {group = "com.google.code.gson", name = "gson", version = "gson"}
 glide = {group="com.github.bumptech.glide", name = "glide", version.ref = "glide"}
 viewmodel = { group = "androidx.lifecycle", name = "lifecycle-viewmodel", version.ref = "lifecycle"}
 livedata = { group = "androidx.lifecycle", name = "lifecycle-livedata", version.ref = "lifecycle"}
-pagging = {group = "androidx.paging", name = "paging-runtime", version.ref = "pagging"}
+paging = {group = "androidx.paging", name = "paging-runtime", version.ref = "paging"}
+rxjava-paging = {group = "androidx.paging", name = "paging-rxjava3", version.ref = "paging"}
 rxjava = {group = "io.reactivex.rxjava3", name = "rxjava", version.ref = "rxjava"}
 rxjava-android = {group = "io.reactivex.rxjava3", name = "rxandroid", version.ref = "rxjavaAndroid"}
 rxjava-adapter = {group = "com.squareup.retrofit2", name = "adapter-rxjava3", version.ref = "rxjavaAdapter"}

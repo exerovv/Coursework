@@ -1,37 +1,47 @@
 package com.example.coursework;
 
-import androidx.lifecycle.LiveData;
+import android.util.Log;
+
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
-
+import androidx.paging.Pager;
+import androidx.paging.PagingConfig;
+import androidx.paging.PagingData;
+import androidx.paging.rxjava3.PagingRx;
+import com.example.coursework.api.MovieDataSource;
 import com.example.coursework.api.MovieRepository;
-import com.example.coursework.utils.MovieState;
-
+import com.example.coursework.model.Movie;
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers;
-import io.reactivex.rxjava3.disposables.CompositeDisposable;
+import io.reactivex.rxjava3.core.Flowable;
 import io.reactivex.rxjava3.schedulers.Schedulers;
 
 public class MovieViewModel extends ViewModel {
     private final MovieRepository movieRepository = new MovieRepository();
-    private final CompositeDisposable disposable = new CompositeDisposable();
-    private final MutableLiveData<MovieState> _state = new MutableLiveData<>();
-    public final LiveData<MovieState> state = _state;
-
-    public void fetchPopularMovies(int page) {
-        _state.setValue(new MovieState(null, null, true));
-        disposable.add(movieRepository.fetchPopularMovies(page)
-                .subscribeOn(Schedulers.newThread())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(
-                        movies -> _state.setValue(new MovieState(movies, null, false)),
-                        errors -> _state.setValue(new MovieState(null, "Error: " + errors.getMessage(), false))
-                )
-        );
+    private Flowable<PagingData<Movie>> pagingData;
+    public Flowable<PagingData<Movie>> getPagingData() {
+        return pagingData.observeOn(AndroidSchedulers.mainThread());
     }
 
-    @Override
-    protected void onCleared() {
-        super.onCleared();
-        disposable.clear();
+    public MovieViewModel(){
+        fetchPopularMovies();
+    }
+
+    public void fetchPopularMovies() {
+        Pager<Integer, Movie> pager = new Pager<>(
+                new PagingConfig(
+                        20,
+                        5,
+                        true,
+                        20 * 3,
+                        20 * 5
+                ),
+                () -> new MovieDataSource(movieRepository)
+        );
+
+        pagingData = PagingRx
+                .getFlowable(pager)
+                .subscribeOn(Schedulers.io())
+                .replay(1, true)
+                .refCount();
     }
 }
