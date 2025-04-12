@@ -1,5 +1,8 @@
 package com.example.coursework.model;
 
+import android.annotation.SuppressLint;
+import android.graphics.Color;
+
 import com.google.gson.annotations.SerializedName;
 
 import java.util.Objects;
@@ -31,8 +34,16 @@ public class Movie {
         return poster_path;
     }
 
-    public Double getRating() {
-        return rating;
+    @SuppressLint("DefaultLocale")
+    public String getRating() {
+        return String.format("%.1f", rating);
+    }
+
+    public int getRatingColor(String rating){
+        double filmRate = Double.parseDouble(rating);
+        if (filmRate < 4.5) return Color.RED;
+        else if (filmRate >= 4.5 && filmRate < 6.5) return Color.GRAY;
+        else return Color.GREEN;
     }
 
     @Override
@@ -42,13 +53,11 @@ public class Movie {
         Movie movie = (Movie) o;
         return Objects.equals(id, movie.id)
                 && Objects.equals(title, movie.title)
-                && Objects.equals(overview, movie.overview)
-                && Objects.equals(poster_path, movie.poster_path)
                 && Objects.equals(rating, movie.rating);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, title, overview, poster_path, rating);
+        return Objects.hash(id, title, rating);
     }
 }

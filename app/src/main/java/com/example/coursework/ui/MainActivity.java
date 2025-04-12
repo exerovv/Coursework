@@ -22,7 +22,8 @@ public class MainActivity extends AppCompatActivity {
                 replaceFragment(new SearchFragment());
             }
             else if (item.getItemId() == R.id.profile){
-                replaceFragment(new ProfileFragment());
+                //TODO()
+                replaceFragment(new LoginFragment());
             }
             return true;
         });

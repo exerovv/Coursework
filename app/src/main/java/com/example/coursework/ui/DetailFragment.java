@@ -2,17 +2,24 @@ package com.example.coursework.ui;
 
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.bumptech.glide.Glide;
 import com.example.coursework.databinding.FragmentDetailBinding;
+import com.example.coursework.model.Movie;
 
 public class DetailFragment extends Fragment {
     private FragmentDetailBinding binding = null;
-    public DetailFragment() {
+    private final Movie movie;
+    public DetailFragment(Movie movie) {
+        this.movie = movie;
     }
 
     @Override
@@ -21,9 +28,22 @@ public class DetailFragment extends Fragment {
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         binding = FragmentDetailBinding.inflate(inflater, container, false);
         return binding.getRoot();
+    }
+
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        Glide.with(requireContext())
+                .load("https://image.tmdb.org/t/p/w500" + movie.getPoster_path())
+                .into(binding.detailImage);
+        binding.title.setText(movie.getTitle());
+        binding.overview.setText(movie.getOverview());
+        String filmRating = movie.getRating();
+        binding.rating.setText(filmRating);
+        binding.rating.setTextColor(movie.getRatingColor(filmRating));
+        Log.d("DetailFragment", String.valueOf(binding.rating.getTextColors()));
     }
 }

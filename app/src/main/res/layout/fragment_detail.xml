@@ -1,35 +1,57 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context=".ui.DetailFragment">
-
+    tools:context=".ui.DetailFragment"
+    android:padding="16dp"
+    android:gravity="center_horizontal">
 
     <ImageView
         android:id="@+id/detail_image"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_width="wrap_content"
+        android:layout_height="250dp"
+        android:contentDescription="@string/detail_movie_photo"
         tools:src="@tools:sample/avatars" />
 
     <TextView
-        android:id="@+id/textView"
+        android:id="@+id/title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_gravity="center_horizontal"
-        tools:text="Fight club" />
+        tools:text="Fight club"
+        android:padding="8dp"
+        android:textStyle="bold"
+        android:textSize="20sp" />
 
     <TextView
-        android:id="@+id/textView2"
-        android:layout_width="match_parent"
+        android:id="@+id/rating"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="TextView" />
+        tools:text="4.6"
+        android:textSize="18sp"
+        android:paddingBottom="8dp"/>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="?android:attr/listDivider" />
 
     <TextView
-        android:id="@+id/textView3"
+        android:id="@+id/overview"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        tools:text=""
+        android:layout_weight="1"
+        android:textSize="15sp"
+        android:padding="16dp"/>
+
+    <Button
+        android:id="@+id/watch_later_btn"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="TextView" />
+        android:background="@color/orange"
+        android:text="@string/watch_later_btn" />
+
+
 </LinearLayout>

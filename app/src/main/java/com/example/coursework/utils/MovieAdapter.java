@@ -1,14 +1,11 @@
 package com.example.coursework.utils;
 
 import android.annotation.SuppressLint;
-import android.graphics.Color;
 import android.view.LayoutInflater;
-import android.view.View;
 import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
 import androidx.paging.PagingDataAdapter;
-import androidx.recyclerview.widget.DiffUtil;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
@@ -22,11 +19,11 @@ public class MovieAdapter extends PagingDataAdapter<Movie, MovieAdapter.MyViewHo
         super(new MovieDiffUtils());
     }
 
-    public void attachCallback(AdapterCallback<Movie> callback){
+    public void attachCallback(AdapterCallback<Movie> callback) {
         this.mCallback = callback;
     }
 
-    public void detachCallback(){
+    public void detachCallback() {
         this.mCallback = null;
     }
 
@@ -39,9 +36,12 @@ public class MovieAdapter extends PagingDataAdapter<Movie, MovieAdapter.MyViewHo
 
     @Override
     public void onBindViewHolder(@NonNull MyViewHolder holder, int position) {
+
         Movie movie = getItem(position);
-        holder.bind(movie);
-        holder.itemView.setOnClickListener(view -> mCallback.onItemClicked(movie, view));
+        if (movie != null) {
+            holder.bind(movie);
+            holder.itemView.setOnClickListener(view -> mCallback.onItemClicked(movie, view));
+        }
     }
 
     public static class MyViewHolder extends RecyclerView.ViewHolder {
@@ -53,21 +53,15 @@ public class MovieAdapter extends PagingDataAdapter<Movie, MovieAdapter.MyViewHo
         }
 
         @SuppressLint({"SetTextI18n", "DefaultLocale"})
-        public void bind(Movie movie){
-            if (movie != null){
-                Glide
-                        .with(itemView.getContext())
-                        .load("https://image.tmdb.org/t/p/w500" + movie.getPoster_path())
-                        .into(binding.poster);
-                binding.title.setText(movie.getTitle());
-                Double filmRating = movie.getRating();
-                binding.rating.setText(String.format("%.1f", filmRating));
-                if (filmRating < 4.5) binding.rating.setTextColor(Color.RED);
-                else if (filmRating >= 4.5 && filmRating < 6.5)  binding.rating.setTextColor(Color.GRAY);
-                else  binding.rating.setTextColor(Color.GREEN);
-            }else{
-
-            }
+        public void bind(Movie movie) {
+            Glide
+                    .with(itemView.getContext())
+                    .load("https://image.tmdb.org/t/p/w500" + movie.getPoster_path())
+                    .into(binding.poster);
+            binding.title.setText(movie.getTitle());
+            String filmRating = movie.getRating();
+            binding.rating.setText(filmRating);
+            binding.rating.setTextColor(movie.getRatingColor(filmRating));
         }
     }
 }

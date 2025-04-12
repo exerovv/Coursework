@@ -1,4 +1,4 @@
-package com.example.coursework.api;
+package com.example.coursework.model;
 
 import android.util.Log;
 
@@ -7,7 +7,7 @@ import androidx.annotation.Nullable;
 import androidx.paging.PagingState;
 import androidx.paging.rxjava3.RxPagingSource;
 
-import com.example.coursework.model.Movie;
+import com.example.coursework.model.service.impl.MovieServiceImpl;
 
 import java.util.Collections;
 import java.util.List;
@@ -16,10 +16,10 @@ import java.util.Objects;
 import io.reactivex.rxjava3.core.Single;
 
 public class MovieDataSource extends RxPagingSource<Integer, Movie> {
-    private final MovieRepository movieRepository;
+    private final MovieServiceImpl movieRepository;
     private final String TAG = "PAGING";
 
-    public MovieDataSource(MovieRepository movieRepository) {
+    public MovieDataSource(MovieServiceImpl movieRepository) {
         this.movieRepository = movieRepository;
     }
 

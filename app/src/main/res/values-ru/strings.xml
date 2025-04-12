@@ -9,4 +9,9 @@
     <string name="log_in">Войти</string>
     <string name="popular">Популярное</string>
     <string name="poster_of_movie">Постер фильма</string>
+    <string name="detail_movie_photo">Фото в разделе подробнее</string>
+    <string name="watch_later_btn">Буду смотреть</string>
+    <string name="sign_up_offer">Нет аккаунта? Нажми сюда для регистрации!</string>
+    <string name="create_account">Создайте аккаунт</string>
+    <string name="back_arrow">Стрелка для навигации назад</string>
 </resources>

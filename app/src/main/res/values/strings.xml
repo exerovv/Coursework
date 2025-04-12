@@ -9,6 +9,9 @@
     <string name="log_in">Log in</string>
     <string name="popular">Popular</string>
     <string name="poster_of_movie">Poster of movie</string>
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="detail_movie_photo">Detail movie photo</string>
+    <string name="watch_later_btn">Watch Later</string>
+    <string name="sign_up_offer">Don\'t have an account? Click here to Sign Up!</string>
+    <string name="create_account">Create account</string>
+    <string name="back_arrow">Arrow to return to auth</string>
 </resources>
