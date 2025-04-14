@@ -16,14 +16,15 @@ import android.widget.Toast;
 import com.example.coursework.MovieViewModel;
 import com.example.coursework.R;
 import com.example.coursework.databinding.FragmentSearchBinding;
-import com.example.coursework.utils.MovieAdapter;
-import com.example.coursework.utils.MovieLoaderStateAdapter;
+import com.example.coursework.ui.adapters.MovieAdapter;
+import com.example.coursework.ui.adapters.MovieLoaderStateAdapter;
 
 import io.reactivex.rxjava3.disposables.CompositeDisposable;
 
 public class SearchFragment extends Fragment {
     private FragmentSearchBinding binding;
     private MovieAdapter adapter = null;
+    private MovieViewModel movieViewModel;
     private final CompositeDisposable compositeDisposable = new CompositeDisposable();
 
     public SearchFragment() {
@@ -32,6 +33,7 @@ public class SearchFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        movieViewModel = new ViewModelProvider(requireActivity()).get(MovieViewModel.class);
     }
 
     @Override
@@ -50,7 +52,6 @@ public class SearchFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        MovieViewModel movieViewModel = new ViewModelProvider(requireActivity()).get(MovieViewModel.class);
         compositeDisposable.add(movieViewModel.getPagingData().subscribe(
                 movies -> adapter.submitData(getLifecycle(), movies),
                 error -> Toast.makeText(requireContext(), "Error while loading the data", Toast.LENGTH_SHORT).show()

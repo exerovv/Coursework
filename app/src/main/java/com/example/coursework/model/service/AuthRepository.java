@@ -1,0 +1,10 @@
+package com.example.coursework.model.service;
+
+import com.example.coursework.utils.AuthCallback;
+
+public interface AuthRepository {
+    void signIn(String email, String password, AuthCallback authCallback);
+
+    void signUp(String email, String password, AuthCallback authCallback);
+
+}

@@ -2,12 +2,11 @@ package com.example.coursework.model.service.impl;
 
 import android.util.Log;
 
+import com.example.coursework.model.service.AuthRepository;
 import com.example.coursework.utils.AuthCallback;
 import com.google.firebase.auth.FirebaseAuth;
 
-import java.util.regex.Pattern;
-
-public class UserAuthImpl {
+public class AuthRepositoryImpl implements AuthRepository {
     private final FirebaseAuth mAuth;
 
     public FirebaseAuth getmAuth() {
@@ -16,7 +15,7 @@ public class UserAuthImpl {
 
     private static final String TAG = "Login";
 
-    public UserAuthImpl() {
+    public AuthRepositoryImpl() {
         this.mAuth = FirebaseAuth.getInstance();
     }
 
@@ -27,8 +26,10 @@ public class UserAuthImpl {
                         Log.d(TAG, "sign up success!");
                         authCallback.onSuccess();
                     } else {
-                        Log.d(TAG, "sign up failure!" + task.getException());
-                        authCallback.onError();
+                        Exception e = task.getException();
+                        String errorMsg = e != null ? e.getLocalizedMessage() : "Unknown error";
+                        Log.d(TAG, "sign up failure! " + errorMsg);
+                        authCallback.onError(errorMsg);
                     }
                 });
     }
@@ -40,17 +41,11 @@ public class UserAuthImpl {
                         Log.d(TAG, "sign in success!");
                         authCallback.onSuccess();
                     } else {
-                        Log.d(TAG, "sign in failure!" + task.getException());
-                        authCallback.onError();
+                        Exception e = task.getException();
+                        String errorMsg = e != null ? e.getLocalizedMessage() : "Unknown error";
+                        Log.d(TAG, "sign in failure! " + errorMsg);
+                        authCallback.onError(errorMsg);
                     }
                 });
-    }
-
-    public boolean validateEmail(String email){
-        return Pattern.matches("^[A-Za-z0-9+_.-]+@(.+)$", email);
-    }
-
-    public boolean validatePassword(String password){
-        return password.length() >= 8;
     }
 }

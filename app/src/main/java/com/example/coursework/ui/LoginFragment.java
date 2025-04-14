@@ -5,29 +5,30 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.ViewModelProvider;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
+import com.example.coursework.AuthViewModel;
 import com.example.coursework.R;
 import com.example.coursework.databinding.FragmentLoginBinding;
-import com.example.coursework.model.service.impl.UserAuthImpl;
-import com.example.coursework.utils.AuthCallback;
+import com.example.coursework.utils.AuthState;
 
 public class LoginFragment extends Fragment {
-    private final UserAuthImpl userLogin = new UserAuthImpl();
     private FragmentLoginBinding binding = null;
+
+    private AuthViewModel viewModel;
 
     public LoginFragment() {}
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if (userLogin.getmAuth().getCurrentUser() != null){
-            navigateFragment(new ProfileFragment());
-        }
+        viewModel = new ViewModelProvider(requireActivity()).get(AuthViewModel.class);
+        if (viewModel.checkUser()) navigateFragment(new ProfileFragment());
     }
 
     @Override
@@ -39,25 +40,11 @@ public class LoginFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        setupObservers();
         binding.loginBtn.setOnClickListener(view1 -> {
             String email = binding.emailLogin.getText().toString();
             String password = binding.passwordLogin.getText().toString();
-            if (userLogin.validateEmail(email) && userLogin.validatePassword(password)){
-                userLogin.signIn(email, password, new AuthCallback() {
-                    @Override
-                    public void onSuccess() {
-                        Toast.makeText(requireContext(), "Auth success!", Toast.LENGTH_SHORT).show();
-                        navigateFragment(new ProfileFragment());
-                    }
-
-                    @Override
-                    public void onError() {
-                        Toast.makeText(requireContext(), "Auth error!", Toast.LENGTH_SHORT).show();
-                    }
-                });
-            }else {
-                Toast.makeText(requireContext(), "Wrong fields values!", Toast.LENGTH_SHORT).show();
-            }
+            viewModel.login(email, password);
         });
         binding.signUp.setOnClickListener(view2 -> navigateFragment(new RegisterFragment()));
     }
@@ -72,5 +59,12 @@ public class LoginFragment extends Fragment {
         requireActivity().getSupportFragmentManager().beginTransaction()
                 .replace(R.id.container, fragment)
                 .commit();
+    }
+
+    private void setupObservers(){
+        viewModel.getAuthState().observe(getViewLifecycleOwner(), state -> {
+            if (state instanceof AuthState.Success) navigateFragment(new ProfileFragment());
+            else Toast.makeText(requireContext(), ((AuthState.Error) state).error, Toast.LENGTH_SHORT).show();
+        });
     }
 }

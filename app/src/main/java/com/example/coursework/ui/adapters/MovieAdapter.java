@@ -1,4 +1,4 @@
-package com.example.coursework.utils;
+package com.example.coursework.ui.adapters;
 
 import android.annotation.SuppressLint;
 import android.view.LayoutInflater;
@@ -11,6 +11,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.bumptech.glide.Glide;
 import com.example.coursework.databinding.ListItemBinding;
 import com.example.coursework.model.Movie;
+import com.example.coursework.utils.AdapterCallback;
 
 public class MovieAdapter extends PagingDataAdapter<Movie, MovieAdapter.MyViewHolder> {
     public AdapterCallback<Movie> mCallback = null;

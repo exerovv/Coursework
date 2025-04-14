@@ -1,4 +1,4 @@
-package com.example.coursework.utils;
+package com.example.coursework.ui.adapters;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.DiffUtil;

@@ -1,4 +1,4 @@
-package com.example.coursework.utils;
+package com.example.coursework.ui.adapters;
 
 import static android.view.View.GONE;
 import static android.view.View.VISIBLE;
