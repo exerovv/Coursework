@@ -52,6 +52,4 @@
         android:layout_height="wrap_content"
         android:background="@color/orange"
         android:text="@string/watch_later_btn" />
-
-
 </LinearLayout>

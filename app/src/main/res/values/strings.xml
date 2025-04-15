@@ -14,4 +14,6 @@
     <string name="sign_up_offer">Don\'t have an account? Click here to Sign Up!</string>
     <string name="create_account">Create account</string>
     <string name="back_arrow">Arrow to return to auth</string>
+    <string name="detail">Detail</string>
+    <string name="register">Registration</string>
 </resources>

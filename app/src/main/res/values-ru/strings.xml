@@ -14,4 +14,6 @@
     <string name="sign_up_offer">Нет аккаунта? Нажми сюда для регистрации!</string>
     <string name="create_account">Создайте аккаунт</string>
     <string name="back_arrow">Стрелка для навигации назад</string>
+    <string name="detail">Детали</string>
+    <string name="register">Регистрация</string>
 </resources>

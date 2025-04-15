@@ -17,10 +17,7 @@ import com.example.coursework.model.Movie;
 
 public class DetailFragment extends Fragment {
     private FragmentDetailBinding binding = null;
-    private final Movie movie;
-    public DetailFragment(Movie movie) {
-        this.movie = movie;
-    }
+    public DetailFragment(){}
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -36,6 +33,7 @@ public class DetailFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        Movie movie = DetailFragmentArgs.fromBundle(getArguments()).getMovie();
         Glide.with(requireContext())
                 .load("https://image.tmdb.org/t/p/w500" + movie.getPoster_path())
                 .into(binding.detailImage);

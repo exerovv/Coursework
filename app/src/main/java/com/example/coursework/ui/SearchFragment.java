@@ -1,5 +1,7 @@
 package com.example.coursework.ui;
 
+import static androidx.navigation.Navigation.findNavController;
+
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -41,8 +43,8 @@ public class SearchFragment extends Fragment {
         binding = FragmentSearchBinding.inflate(inflater, container, false);
         if (adapter == null) {
             adapter = new MovieAdapter();
+//            adapter.setStateRestorationPolicy(RecyclerView.Adapter.StateRestorationPolicy.PREVENT_WHEN_EMPTY);
         }
-        adapter.setStateRestorationPolicy(RecyclerView.Adapter.StateRestorationPolicy.PREVENT_WHEN_EMPTY);
         binding.recyclerView.setAdapter(adapter.withLoadStateFooter(
                 new MovieLoaderStateAdapter()
         ));
@@ -56,12 +58,9 @@ public class SearchFragment extends Fragment {
                 movies -> adapter.submitData(getLifecycle(), movies),
                 error -> Toast.makeText(requireContext(), "Error while loading the data", Toast.LENGTH_SHORT).show()
         ));
-
-        adapter.attachCallback((model, view1) ->
-                requireActivity().getSupportFragmentManager().beginTransaction()
-                    .replace(R.id.container, new DetailFragment(model))
-                    .addToBackStack(null)
-                    .commit()
+        adapter.attachCallback((movie, view1) ->
+                findNavController(requireActivity(), R.id.nav_host_fragment_container)
+                        .navigate(SearchFragmentDirections.toMovieDetail(movie))
         );
 
     }
@@ -71,7 +70,6 @@ public class SearchFragment extends Fragment {
         super.onDestroyView();
         binding = null;
         adapter.detachCallback();
-        adapter = null;
         compositeDisposable.clear();
     }
 }

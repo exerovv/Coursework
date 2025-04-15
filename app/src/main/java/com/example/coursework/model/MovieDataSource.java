@@ -9,11 +9,15 @@ import androidx.paging.rxjava3.RxPagingSource;
 
 import com.example.coursework.model.service.impl.MovieServiceImpl;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
+import java.util.Set;
+import java.util.WeakHashMap;
 
 import io.reactivex.rxjava3.core.Single;
+import io.reactivex.rxjava3.schedulers.Schedulers;
 
 public class MovieDataSource extends RxPagingSource<Integer, Movie> {
     private final MovieServiceImpl movieRepository;
@@ -30,6 +34,7 @@ public class MovieDataSource extends RxPagingSource<Integer, Movie> {
         Log.d(TAG, "Loading page: " + currentPage);
 
         return movieRepository.fetchPopularMovies(currentPage)
+                .subscribeOn(Schedulers.io())
                 .map(response -> {
                             List<Movie> movies = response.getMovies();
                             int totalPages = response.getTotalPages();
@@ -37,6 +42,7 @@ public class MovieDataSource extends RxPagingSource<Integer, Movie> {
 
                             Integer prevKey = currentPage == 1 ? null : currentPage - 1;
                             Integer nextKey = currentPage >= totalPages ? null : currentPage + 1;
+
 
                             if (movies == null || movies.isEmpty()){
                                 Log.w(TAG, "Movie list is empty!");

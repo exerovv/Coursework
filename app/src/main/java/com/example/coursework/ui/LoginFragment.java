@@ -1,5 +1,7 @@
 package com.example.coursework.ui;
 
+import static androidx.navigation.Navigation.findNavController;
+
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -28,7 +30,6 @@ public class LoginFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         viewModel = new ViewModelProvider(requireActivity()).get(AuthViewModel.class);
-        if (viewModel.checkUser()) navigateFragment(new ProfileFragment());
     }
 
     @Override
@@ -46,7 +47,8 @@ public class LoginFragment extends Fragment {
             String password = binding.passwordLogin.getText().toString();
             viewModel.login(email, password);
         });
-        binding.signUp.setOnClickListener(view2 -> navigateFragment(new RegisterFragment()));
+        binding.signUp.setOnClickListener(view2 -> findNavController(requireActivity(), R.id.nav_host_fragment_container)
+                .navigate(LoginFragmentDirections.toRegFromLogin()));
     }
 
     @Override
@@ -55,16 +57,30 @@ public class LoginFragment extends Fragment {
         binding = null;
     }
 
-    private void navigateFragment(Fragment fragment){
-        requireActivity().getSupportFragmentManager().beginTransaction()
-                .replace(R.id.container, fragment)
-                .commit();
-    }
-
     private void setupObservers(){
         viewModel.getAuthState().observe(getViewLifecycleOwner(), state -> {
-            if (state instanceof AuthState.Success) navigateFragment(new ProfileFragment());
-            else Toast.makeText(requireContext(), ((AuthState.Error) state).error, Toast.LENGTH_SHORT).show();
+            if (state instanceof AuthState.Success)
+                findNavController(requireActivity(), R.id.nav_host_fragment_container)
+                        .navigate(LoginFragmentDirections.toProfileFromLogin());
+            if (state instanceof AuthState.Loading){
+                binding.passwordLogin.setEnabled(false);
+                binding.emailLogin.setEnabled(false);
+                binding.loginBtn.setEnabled(false);
+                binding.signUp.setEnabled(false);
+            }
+            if (state instanceof AuthState.Default){
+                binding.passwordLogin.setEnabled(true);
+                binding.emailLogin.setEnabled(true);
+                binding.loginBtn.setEnabled(true);
+                binding.signUp.setEnabled(true);
+            }
+            if (state instanceof AuthState.Error){
+                Toast.makeText(requireContext(), ((AuthState.Error) state).error, Toast.LENGTH_SHORT).show();
+                binding.passwordLogin.setEnabled(true);
+                binding.emailLogin.setEnabled(true);
+                binding.loginBtn.setEnabled(true);
+                binding.signUp.setEnabled(true);
+            }
         });
     }
 }

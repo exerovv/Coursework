@@ -9,4 +9,6 @@ public abstract class AuthState {
             this.error = error;
         }
     }
+    public static class Loading extends AuthState {}
+    public static class Default extends AuthState {}
 }

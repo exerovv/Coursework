@@ -1,5 +1,7 @@
 package com.example.coursework.ui;
 
+import static androidx.navigation.Navigation.findNavController;
+
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -19,15 +21,14 @@ import com.example.coursework.utils.AuthState;
 
 public class RegisterFragment extends Fragment {
     private FragmentRegisterBinding binding;
-    private AuthViewModel authViewModel;
+    private AuthViewModel viewModel;
 
     public RegisterFragment() {}
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        authViewModel = new ViewModelProvider(requireActivity()).get(AuthViewModel.class);
-
+        viewModel = new ViewModelProvider(requireActivity()).get(AuthViewModel.class);
     }
 
     @Override
@@ -44,9 +45,8 @@ public class RegisterFragment extends Fragment {
         binding.regBtn.setOnClickListener(view1 -> {
             String email = binding.emailReg.getText().toString();
             String password = binding.passwordReg.getText().toString();
-            authViewModel.register(email, password);
+            viewModel.register(email, password);
         });
-        binding.backArrow.setOnClickListener(view2 -> navigateFragment(new LoginFragment()));
 
     }
 
@@ -56,16 +56,30 @@ public class RegisterFragment extends Fragment {
         binding = null;
     }
 
-    private void navigateFragment(Fragment fragment){
-        requireActivity().getSupportFragmentManager().beginTransaction()
-                .replace(R.id.container, fragment)
-                .commit();
-    }
-
     private void setupObservers(){
-        authViewModel.getAuthState().observe(getViewLifecycleOwner(), state -> {
-            if (state instanceof AuthState.Success) navigateFragment(new LoginFragment());
-            else Toast.makeText(requireContext(), ((AuthState.Error) state).error, Toast.LENGTH_SHORT).show();
+        viewModel.getAuthState().observe(getViewLifecycleOwner(), state -> {
+            if (state instanceof AuthState.Success)
+                findNavController(requireActivity(), R.id.nav_host_fragment_container)
+                        .navigate(RegisterFragmentDirections.toProfileFromReg());
+            if (state instanceof AuthState.Loading){
+                binding.passwordReg.setEnabled(false);
+                binding.emailReg.setEnabled(false);
+                binding.regBtn.setEnabled(false);
+                binding.backArrow.setEnabled(false);
+            }
+            if (state instanceof AuthState.Default){
+                binding.passwordReg.setEnabled(true);
+                binding.emailReg.setEnabled(true);
+                binding.regBtn.setEnabled(true);
+                binding.backArrow.setEnabled(true);
+            }
+            if (state instanceof AuthState.Error){
+                Toast.makeText(requireContext(), ((AuthState.Error) state).error, Toast.LENGTH_SHORT).show();
+                binding.passwordReg.setEnabled(true);
+                binding.emailReg.setEnabled(true);
+                binding.regBtn.setEnabled(true);
+                binding.backArrow.setEnabled(true);
+            }
         });
     }
 }

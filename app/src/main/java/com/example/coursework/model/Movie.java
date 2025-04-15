@@ -5,9 +5,10 @@ import android.graphics.Color;
 
 import com.google.gson.annotations.SerializedName;
 
+import java.io.Serializable;
 import java.util.Objects;
 
-public class Movie {
+public class Movie implements Serializable {
     @SerializedName("id")
     private Integer id;
     @SerializedName("title")
@@ -51,9 +52,9 @@ public class Movie {
         if (this == o) return true;
         if (!(o instanceof Movie)) return false;
         Movie movie = (Movie) o;
-        return Objects.equals(id, movie.id)
-                && Objects.equals(title, movie.title)
-                && Objects.equals(rating, movie.rating);
+        return Objects.equals(this.id, movie.id)
+                && Objects.equals(this.title, movie.title)
+                && Objects.equals(this.rating, movie.rating);
     }
 
     @Override
