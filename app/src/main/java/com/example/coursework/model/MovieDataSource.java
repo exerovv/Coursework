@@ -9,12 +9,9 @@ import androidx.paging.rxjava3.RxPagingSource;
 
 import com.example.coursework.model.service.impl.MovieServiceImpl;
 
-import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
-import java.util.Set;
-import java.util.WeakHashMap;
 
 import io.reactivex.rxjava3.core.Single;
 import io.reactivex.rxjava3.schedulers.Schedulers;
