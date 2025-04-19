@@ -26,6 +26,8 @@
             android:id="@+id/progressBar"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:indeterminateTint="@color/orange"
+            android:indeterminate="true"
             android:visibility="gone"/>
 
         <androidx.recyclerview.widget.RecyclerView

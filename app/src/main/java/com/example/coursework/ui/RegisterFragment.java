@@ -65,20 +65,17 @@ public class RegisterFragment extends Fragment {
                 binding.passwordReg.setEnabled(false);
                 binding.emailReg.setEnabled(false);
                 binding.regBtn.setEnabled(false);
-                binding.backArrow.setEnabled(false);
             }
             if (state instanceof AuthState.Default){
                 binding.passwordReg.setEnabled(true);
                 binding.emailReg.setEnabled(true);
                 binding.regBtn.setEnabled(true);
-                binding.backArrow.setEnabled(true);
             }
             if (state instanceof AuthState.Error){
                 Toast.makeText(requireContext(), ((AuthState.Error) state).error, Toast.LENGTH_SHORT).show();
                 binding.passwordReg.setEnabled(true);
                 binding.emailReg.setEnabled(true);
                 binding.regBtn.setEnabled(true);
-                binding.backArrow.setEnabled(true);
             }
         });
     }

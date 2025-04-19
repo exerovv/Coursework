@@ -14,7 +14,7 @@
         android:layout_height="48dp"
         android:autofillHints=""
         android:ems="10"
-        android:hint="@string/login"
+        android:hint="@string/email"
         android:inputType="textEmailAddress"
         android:padding="8dp" />
 

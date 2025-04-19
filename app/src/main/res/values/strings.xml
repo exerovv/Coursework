@@ -4,7 +4,6 @@
     <string name="search">Search</string>
     <string name="offline">Offline</string>
     <string name="profile">Profile</string>
-    <string name="login">Login</string>
     <string name="password">Password</string>
     <string name="log_in">Log in</string>
     <string name="popular">Popular</string>
@@ -16,4 +15,14 @@
     <string name="back_arrow">Arrow to return to auth</string>
     <string name="detail">Detail</string>
     <string name="register">Registration</string>
+    <string name="avatar">Avatar</string>
+    <string name="email">Email</string>
+    <string name="login">Login</string>
+    <string name="change_password_text">Change password</string>
+    <string name="language_change_text">Language</string>
+    <string name="logout_text" translatable="false">Logout</string>
+    <string-array name="languages_array">
+        <item>English</item>
+        <item>Русский</item>
+    </string-array>
 </resources>

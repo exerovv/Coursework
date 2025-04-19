@@ -16,4 +16,8 @@
     <string name="back_arrow">Стрелка для навигации назад</string>
     <string name="detail">Детали</string>
     <string name="register">Регистрация</string>
+    <string name="avatar">Аватар</string>
+    <string name="email">Email</string>
+    <string name="change_password_text">Смена пароля</string>
+    <string name="language_change_text">Язык</string>
 </resources>
