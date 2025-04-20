@@ -57,7 +57,7 @@ public class MovieAdapter extends PagingDataAdapter<Movie, MovieAdapter.MyViewHo
         public void bind(Movie movie) {
             Glide
                     .with(itemView.getContext())
-                    .load("https://image.tmdb.org/t/p/w500" + movie.getPoster_path())
+                    .load("https://image.tmdb.org/t/p/w500" + movie.getPosterPath())
                     .into(binding.poster);
             binding.title.setText(movie.getTitle());
             String filmRating = movie.getRating();

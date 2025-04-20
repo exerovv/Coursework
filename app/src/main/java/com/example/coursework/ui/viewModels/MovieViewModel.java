@@ -1,4 +1,5 @@
-package com.example.coursework;
+package com.example.coursework.ui.viewModels;
+
 
 import androidx.lifecycle.ViewModel;
 import androidx.lifecycle.ViewModelKt;
@@ -7,22 +8,22 @@ import androidx.paging.PagingConfig;
 import androidx.paging.PagingData;
 import androidx.paging.rxjava3.PagingRx;
 import com.example.coursework.model.MovieDataSource;
-import com.example.coursework.model.service.impl.MovieServiceImpl;
 import com.example.coursework.model.Movie;
 import io.reactivex.rxjava3.core.Flowable;
 import kotlinx.coroutines.CoroutineScope;
 
 public class MovieViewModel extends ViewModel {
-    private final MovieServiceImpl movieRepository = new MovieServiceImpl();
     private Flowable<PagingData<Movie>> pagingData;
-    public Flowable<PagingData<Movie>> getPagingData() {
-        if (pagingData == null){
-            fetchPopularMovies();
+    private int lastPos;
+    public Flowable<PagingData<Movie>> getPagingData(int pos) {
+        if (pagingData == null || pos != lastPos){
+            lastPos = pos;
+            fetchPopularMovies(pos);
         }
         return pagingData;
     }
 
-    public void fetchPopularMovies() {
+    public void fetchPopularMovies(int position) {
         CoroutineScope viewModelScope = ViewModelKt.getViewModelScope(this);
         Pager<Integer, Movie> pager = new Pager<>(
                 new PagingConfig(
@@ -32,7 +33,7 @@ public class MovieViewModel extends ViewModel {
                         20 * 3,
                         20 * 5
                 ),
-                () -> new MovieDataSource(movieRepository)
+                () -> new MovieDataSource(position)
         );
         pagingData = PagingRx.cachedIn(PagingRx.getFlowable(pager), viewModelScope);
     }

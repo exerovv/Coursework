@@ -17,12 +17,14 @@ import io.reactivex.rxjava3.core.Single;
 import io.reactivex.rxjava3.schedulers.Schedulers;
 
 public class MovieDataSource extends RxPagingSource<Integer, Movie> {
-    private final MovieServiceImpl movieRepository;
-    private final String TAG = "PAGING";
+    private final MovieServiceImpl movieRepository = new MovieServiceImpl();
+    private final int spinnerPos;
 
-    public MovieDataSource(MovieServiceImpl movieRepository) {
-        this.movieRepository = movieRepository;
+    public MovieDataSource(int spinnerPos) {
+        this.spinnerPos = spinnerPos;
     }
+
+    private final String TAG = "PAGING";
 
     @NonNull
     @Override
@@ -30,7 +32,9 @@ public class MovieDataSource extends RxPagingSource<Integer, Movie> {
         int currentPage = loadParams.getKey() != null ? loadParams.getKey() : 1;
         Log.d(TAG, "Loading page: " + currentPage);
 
-        return movieRepository.fetchPopularMovies(currentPage)
+        String language = spinnerPos == 0 ? "en-US" : "ru-RU";
+
+        return movieRepository.fetchPopularMovies(currentPage,language)
                 .subscribeOn(Schedulers.io())
                 .map(response -> {
                             List<Movie> movies = response.getMovies();

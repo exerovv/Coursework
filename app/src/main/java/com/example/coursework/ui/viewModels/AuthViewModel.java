@@ -1,4 +1,4 @@
-package com.example.coursework;
+package com.example.coursework.ui.viewModels;
 
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;

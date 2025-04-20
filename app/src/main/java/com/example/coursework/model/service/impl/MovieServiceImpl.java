@@ -7,7 +7,6 @@ import io.reactivex.rxjava3.core.Single;
 import retrofit2.Retrofit;
 import retrofit2.adapter.rxjava3.RxJava3CallAdapterFactory;
 import retrofit2.converter.gson.GsonConverterFactory;
-import retrofit2.http.Query;
 
 public class MovieServiceImpl {
     private static final String BASE_URL = "https://api.themoviedb.org/3/";
@@ -25,8 +24,8 @@ public class MovieServiceImpl {
         }
     }
 
-    public Single<MovieResponse> fetchPopularMovies(@Query("page") int page){
-        return tmdbApi.fetchPopularMovies(API_KEY, page)
+    public Single<MovieResponse> fetchPopularMovies(int page, String language){
+        return tmdbApi.fetchPopularMovies(API_KEY, page, language)
                 .onErrorResumeNext(Single::error);
     }
 }

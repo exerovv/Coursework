@@ -1,4 +1,4 @@
-package com.example.coursework.ui;
+package com.example.coursework.ui.activities;
 
 import android.os.Bundle;
 
@@ -10,7 +10,6 @@ import androidx.navigation.ui.NavigationUI;
 
 import com.example.coursework.R;
 import com.example.coursework.databinding.ActivityMainBinding;
-
 public class MainActivity extends AppCompatActivity {
     private ActivityMainBinding binding = null;
 

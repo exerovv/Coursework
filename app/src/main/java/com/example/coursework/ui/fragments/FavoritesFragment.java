@@ -1,4 +1,4 @@
-package com.example.coursework.ui;
+package com.example.coursework.ui.fragments;
 
 import android.os.Bundle;
 

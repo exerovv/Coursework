@@ -20,7 +20,7 @@
     <string name="login">Login</string>
     <string name="change_password_text">Change password</string>
     <string name="language_change_text">Language</string>
-    <string name="logout_text" translatable="false">Logout</string>
+    <string name="logout_text">Logout</string>
     <string-array name="languages_array">
         <item>English</item>
         <item>Русский</item>

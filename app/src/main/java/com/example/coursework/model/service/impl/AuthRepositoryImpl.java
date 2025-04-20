@@ -26,8 +26,7 @@ public class AuthRepositoryImpl implements AuthRepository {
                         Log.d(TAG, "sign up success!");
                         authCallback.onSuccess();
                     } else {
-                        Exception e = task.getException();
-                        String errorMsg = e != null ? e.getLocalizedMessage() : "Unknown error";
+                        String errorMsg = "Auth error or user doesnt exist!";
                         Log.d(TAG, "sign up failure! " + errorMsg);
                         authCallback.onError(errorMsg);
                     }

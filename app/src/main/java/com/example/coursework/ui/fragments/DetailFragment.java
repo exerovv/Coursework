@@ -1,4 +1,4 @@
-package com.example.coursework.ui;
+package com.example.coursework.ui.fragments;
 
 import android.os.Bundle;
 
@@ -6,6 +6,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
+import android.text.method.ScrollingMovementMethod;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -35,10 +36,11 @@ public class DetailFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
         Movie movie = DetailFragmentArgs.fromBundle(getArguments()).getMovie();
         Glide.with(requireContext())
-                .load("https://image.tmdb.org/t/p/w500" + movie.getPoster_path())
+                .load("https://image.tmdb.org/t/p/w500" + movie.getPosterPath())
                 .into(binding.detailImage);
         binding.title.setText(movie.getTitle());
         binding.overview.setText(movie.getOverview());
+        binding.overview.setMovementMethod(new ScrollingMovementMethod());
         String filmRating = movie.getRating();
         binding.rating.setText(filmRating);
         binding.rating.setTextColor(movie.getRatingColor(filmRating));

@@ -1,4 +1,4 @@
-package com.example.coursework.ui;
+package com.example.coursework.ui.fragments;
 
 import static android.view.View.GONE;
 import static android.view.View.VISIBLE;
@@ -18,7 +18,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
-import com.example.coursework.MovieViewModel;
+import com.example.coursework.ui.viewModels.LanguageViewModel;
+import com.example.coursework.ui.viewModels.MovieViewModel;
 import com.example.coursework.R;
 import com.example.coursework.databinding.FragmentSearchBinding;
 import com.example.coursework.ui.adapters.MovieAdapter;
@@ -31,6 +32,7 @@ public class SearchFragment extends Fragment {
     private FragmentSearchBinding binding;
     private MovieAdapter adapter;
     private MovieViewModel movieViewModel;
+    private LanguageViewModel languageViewModel;
     private ConcatAdapter concatAdapter;
     private final CompositeDisposable compositeDisposable = new CompositeDisposable();
 
@@ -41,6 +43,7 @@ public class SearchFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         movieViewModel = new ViewModelProvider(this).get(MovieViewModel.class);
+        languageViewModel = new ViewModelProvider(requireActivity()).get(LanguageViewModel.class);
         adapter = new MovieAdapter();
         concatAdapter = adapter.withLoadStateFooter(new MovieLoaderStateAdapter());
     }
@@ -55,10 +58,11 @@ public class SearchFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         binding.recyclerView.setAdapter(concatAdapter);
-        compositeDisposable.add(movieViewModel.getPagingData().observeOn(AndroidSchedulers.mainThread()).subscribe(
+        languageViewModel.getLangLiveData().observe(getViewLifecycleOwner(), integer ->
+                compositeDisposable.add(movieViewModel.getPagingData(integer).observeOn(AndroidSchedulers.mainThread()).subscribe(
                 movies -> adapter.submitData(getLifecycle(), movies),
                 error -> Toast.makeText(requireContext(), "Error while loading the data", Toast.LENGTH_SHORT).show()
-        ));
+        )));
         adapter.attachCallback((movie, view1) ->
                 findNavController(requireActivity(), R.id.nav_host_fragment_container)
                         .navigate(SearchFragmentDirections.toMovieDetail(movie))

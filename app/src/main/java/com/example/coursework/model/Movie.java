@@ -31,7 +31,7 @@ public class Movie implements Serializable {
         return overview;
     }
 
-    public String getPoster_path() {
+    public String getPosterPath() {
         return poster_path;
     }
 
@@ -41,7 +41,7 @@ public class Movie implements Serializable {
     }
 
     public int getRatingColor(String rating){
-        double filmRate = Double.parseDouble(rating);
+        double filmRate = Double.parseDouble(rating.replace(",", "."));
         if (filmRate < 4.5) return Color.RED;
         else if (filmRate >= 4.5 && filmRate < 6.5) return Color.GRAY;
         else return Color.GREEN;
