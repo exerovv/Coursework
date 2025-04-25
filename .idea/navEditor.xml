@@ -37,23 +37,35 @@
                       <LayoutPositions>
                         <option name="myPosition">
                           <Point>
-                            <option name="x" value="-14" />
-                            <option name="y" value="360" />
+                            <option name="x" value="559" />
+                            <option name="y" value="862" />
                           </Point>
                         </option>
                         <option name="myPositions">
                           <map>
-                            <entry key="to_profile_from_login">
+                            <entry key="to_profile_fragment">
                               <value>
                                 <LayoutPositions />
                               </value>
                             </entry>
-                            <entry key="to_reg_from_login">
+                            <entry key="to_reg_fragment">
                               <value>
                                 <LayoutPositions />
                               </value>
                             </entry>
                           </map>
+                        </option>
+                      </LayoutPositions>
+                    </value>
+                  </entry>
+                  <entry key="passwordChangePassword">
+                    <value>
+                      <LayoutPositions>
+                        <option name="myPosition">
+                          <Point>
+                            <option name="x" value="820" />
+                            <option name="y" value="529" />
+                          </Point>
                         </option>
                       </LayoutPositions>
                     </value>
@@ -69,7 +81,12 @@
                         </option>
                         <option name="myPositions">
                           <map>
-                            <entry key="to_login_from_profile">
+                            <entry key="to_change_password_fragment">
+                              <value>
+                                <LayoutPositions />
+                              </value>
+                            </entry>
+                            <entry key="to_login_fragment">
                               <value>
                                 <LayoutPositions />
                               </value>
@@ -90,7 +107,7 @@
                         </option>
                         <option name="myPositions">
                           <map>
-                            <entry key="to_profile_from_reg">
+                            <entry key="to_profile_fragment">
                               <value>
                                 <LayoutPositions />
                               </value>
@@ -111,7 +128,7 @@
                         </option>
                         <option name="myPositions">
                           <map>
-                            <entry key="to_movie_detail">
+                            <entry key="to_movie_detail_fragment">
                               <value>
                                 <LayoutPositions />
                               </value>

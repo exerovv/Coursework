@@ -16,7 +16,7 @@
     <string name="detail">Detail</string>
     <string name="register">Registration</string>
     <string name="avatar">Avatar</string>
-    <string name="email">Email</string>
+    <string name="email" translatable="false">Email</string>
     <string name="login">Login</string>
     <string name="change_password_text">Change password</string>
     <string name="language_change_text">Language</string>
@@ -25,4 +25,11 @@
         <item>English</item>
         <item>Русский</item>
     </string-array>
+    <string name="logout_confirmation">Do you really want to logout?</string>
+    <string name="confirm">Confirm</string>
+    <string name="cancel">Cancel</string>
+    <string name="change_password">Change password</string>
+    <string name="old_password">Old password</string>
+    <string name="new_password">New password</string>
+    <string name="change_password_fragment_title">Password change</string>
 </resources>

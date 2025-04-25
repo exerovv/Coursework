@@ -1,5 +1,6 @@
 package com.example.coursework.model.service;
 
+import com.example.coursework.model.Movie;
 import com.example.coursework.model.MovieResponse;
 
 import io.reactivex.rxjava3.core.Single;
@@ -12,6 +13,14 @@ public interface MovieService {
             @Query("api_key") String apiKey,
             @Query("page") int page,
             @Query("language") String language
+    );
+
+    @GET("search/movie")
+    Single<MovieResponse> fetchMovies(
+            @Query("api_key") String apiKey,
+            @Query("query") String query,
+            @Query("page") int page,
+            @Query("page") String language
     );
 
 }

@@ -1,4 +1,4 @@
-package com.example.coursework.ui.fragments;
+package com.example.coursework.ui.fragments.auth;
 
 import static androidx.navigation.Navigation.findNavController;
 
@@ -22,14 +22,14 @@ import com.example.coursework.utils.AuthState;
 public class LoginFragment extends Fragment {
     private FragmentLoginBinding binding = null;
 
-    private AuthViewModel viewModel;
+    private AuthViewModel authViewModel;
 
     public LoginFragment() {}
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        viewModel = new ViewModelProvider(requireActivity()).get(AuthViewModel.class);
+        authViewModel = new ViewModelProvider(this).get(AuthViewModel.class);
     }
 
     @Override
@@ -45,10 +45,10 @@ public class LoginFragment extends Fragment {
         binding.loginBtn.setOnClickListener(view1 -> {
             String email = binding.emailLogin.getText().toString();
             String password = binding.passwordLogin.getText().toString();
-            viewModel.login(email, password);
+            authViewModel.login(email, password);
         });
         binding.signUp.setOnClickListener(view2 -> findNavController(requireActivity(), R.id.nav_host_fragment_container)
-                .navigate(LoginFragmentDirections.toRegFromLogin()));
+                .navigate(LoginFragmentDirections.toRegFragment()));
     }
 
     @Override
@@ -58,10 +58,11 @@ public class LoginFragment extends Fragment {
     }
 
     private void setupObservers(){
-        viewModel.getAuthState().observe(getViewLifecycleOwner(), state -> {
-            if (state instanceof AuthState.Success)
+        authViewModel.getAuthState().observe(getViewLifecycleOwner(), state -> {
+            if (state instanceof AuthState.Success){
                 findNavController(requireActivity(), R.id.nav_host_fragment_container)
-                        .navigate(LoginFragmentDirections.toProfileFromLogin());
+                        .navigate(LoginFragmentDirections.toProfileFragment());
+            }
             if (state instanceof AuthState.Loading){
                 binding.passwordLogin.setEnabled(false);
                 binding.emailLogin.setEnabled(false);

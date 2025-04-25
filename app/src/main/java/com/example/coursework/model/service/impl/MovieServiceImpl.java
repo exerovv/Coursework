@@ -28,4 +28,9 @@ public class MovieServiceImpl {
         return tmdbApi.fetchPopularMovies(API_KEY, page, language)
                 .onErrorResumeNext(Single::error);
     }
+
+    public Single<MovieResponse> fetchMovies(String query, int page, String language){
+        return tmdbApi.fetchMovies(API_KEY, query, page, language)
+                .onErrorResumeNext(Single::error);
+    }
 }

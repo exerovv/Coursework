@@ -59,13 +59,13 @@ public class SearchFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
         binding.recyclerView.setAdapter(concatAdapter);
         languageViewModel.getLangLiveData().observe(getViewLifecycleOwner(), integer ->
-                compositeDisposable.add(movieViewModel.getPagingData(integer).observeOn(AndroidSchedulers.mainThread()).subscribe(
+                compositeDisposable.add(movieViewModel.getPopularMoviesPagingData(integer).observeOn(AndroidSchedulers.mainThread()).subscribe(
                 movies -> adapter.submitData(getLifecycle(), movies),
                 error -> Toast.makeText(requireContext(), "Error while loading the data", Toast.LENGTH_SHORT).show()
         )));
         adapter.attachCallback((movie, view1) ->
                 findNavController(requireActivity(), R.id.nav_host_fragment_container)
-                        .navigate(SearchFragmentDirections.toMovieDetail(movie))
+                        .navigate(SearchFragmentDirections.toMovieDetailFragment(movie))
         );
         adapter.addLoadStateListener(loadStates -> {
             boolean isLoading = loadStates.getRefresh() instanceof LoadState.Loading;

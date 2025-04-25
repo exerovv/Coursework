@@ -16,11 +16,11 @@ import java.util.Objects;
 import io.reactivex.rxjava3.core.Single;
 import io.reactivex.rxjava3.schedulers.Schedulers;
 
-public class MovieDataSource extends RxPagingSource<Integer, Movie> {
+public class PopularMovieDataSource extends RxPagingSource<Integer, Movie> {
     private final MovieServiceImpl movieRepository = new MovieServiceImpl();
     private final int spinnerPos;
 
-    public MovieDataSource(int spinnerPos) {
+    public PopularMovieDataSource(int spinnerPos) {
         this.spinnerPos = spinnerPos;
     }
 
@@ -34,7 +34,7 @@ public class MovieDataSource extends RxPagingSource<Integer, Movie> {
 
         String language = spinnerPos == 0 ? "en-US" : "ru-RU";
 
-        return movieRepository.fetchPopularMovies(currentPage,language)
+        return movieRepository.fetchPopularMovies(currentPage, language)
                 .subscribeOn(Schedulers.io())
                 .map(response -> {
                             List<Movie> movies = response.getMovies();

@@ -1,4 +1,4 @@
-package com.example.coursework.ui.fragments;
+package com.example.coursework.ui.fragments.auth;
 
 import static androidx.navigation.Navigation.findNavController;
 
@@ -22,14 +22,14 @@ import com.example.coursework.utils.AuthState;
 
 public class RegisterFragment extends Fragment {
     private FragmentRegisterBinding binding;
-    private AuthViewModel viewModel;
+    private AuthViewModel authViewModel;
 
     public RegisterFragment() {}
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        viewModel = new ViewModelProvider(requireActivity()).get(AuthViewModel.class);
+        authViewModel = new ViewModelProvider(this).get(AuthViewModel.class);
     }
 
     @Override
@@ -46,7 +46,7 @@ public class RegisterFragment extends Fragment {
         binding.regBtn.setOnClickListener(view1 -> {
             String email = binding.emailReg.getText().toString();
             String password = binding.passwordReg.getText().toString();
-            viewModel.register(email, password);
+            authViewModel.register(email, password);
         });
 
     }
@@ -58,10 +58,11 @@ public class RegisterFragment extends Fragment {
     }
 
     private void setupObservers(){
-        viewModel.getAuthState().observe(getViewLifecycleOwner(), state -> {
-            if (state instanceof AuthState.Success)
+        authViewModel.getAuthState().observe(getViewLifecycleOwner(), state -> {
+            if (state instanceof AuthState.Success){
                 findNavController(requireActivity(), R.id.nav_host_fragment_container)
-                        .navigate(RegisterFragmentDirections.toProfileFromReg());
+                        .navigate(RegisterFragmentDirections.toProfileFragment());
+            }
             if (state instanceof AuthState.Loading){
                 binding.passwordReg.setEnabled(false);
                 binding.emailReg.setEnabled(false);

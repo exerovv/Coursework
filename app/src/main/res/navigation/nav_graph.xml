@@ -11,7 +11,7 @@
         android:label="@string/search"
         tools:layout="@layout/fragment_search" >
         <action
-            android:id="@+id/to_movie_detail"
+            android:id="@+id/to_movie_detail_fragment"
             app:destination="@id/detailFragment" />
     </fragment>
     <fragment
@@ -25,8 +25,13 @@
         android:label="@string/profile"
         tools:layout="@layout/fragment_profile" >
         <action
-            android:id="@+id/to_login_from_profile"
-            app:destination="@id/loginFragment" />
+            android:id="@+id/to_login_fragment"
+            app:destination="@id/loginFragment"
+            app:popUpTo="@id/profileFragment"
+            app:popUpToInclusive="true"/>
+        <action
+            android:id="@+id/to_change_password_fragment"
+            app:destination="@id/passwordChangePassword" />
     </fragment>
     <fragment
         android:id="@+id/detailFragment"
@@ -39,21 +44,34 @@
     </fragment>
     <fragment
         android:id="@+id/loginFragment"
-        android:name="com.example.coursework.ui.fragments.LoginFragment"
+        android:name="com.example.coursework.ui.fragments.auth.LoginFragment"
         android:label="@string/login" >
         <action
-            android:id="@+id/to_profile_from_login"
-            app:destination="@id/profileFragment" />
+            android:id="@+id/to_profile_fragment"
+            app:destination="@id/profileFragment"
+            app:popUpToInclusive="true"
+            app:popUpTo="@id/loginFragment"/>
         <action
-            android:id="@+id/to_reg_from_login"
+            android:id="@+id/to_reg_fragment"
             app:destination="@id/registerFragment" />
     </fragment>
     <fragment
         android:id="@+id/registerFragment"
-        android:name="com.example.coursework.ui.fragments.RegisterFragment"
+        android:name="com.example.coursework.ui.fragments.auth.RegisterFragment"
         android:label="@string/register" >
         <action
-            android:id="@+id/to_profile_from_reg"
-            app:destination="@id/profileFragment" />
+            android:id="@+id/to_profile_fragment"
+            app:destination="@id/profileFragment"
+            app:popUpTo="@id/loginFragment"
+            app:popUpToInclusive="true"/>
+    </fragment>
+    <fragment
+        android:id="@+id/passwordChangePassword"
+        android:name="com.example.coursework.ui.fragments.auth.PasswordChangeFragment"
+        android:label="@string/change_password_fragment_title"
+        tools:layout="@layout/fragment_password_change_password" >
+        <action
+            android:id="@+id/to_login_fragment"
+            app:destination="@id/loginFragment" />
     </fragment>
 </navigation>

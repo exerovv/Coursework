@@ -17,8 +17,14 @@
     <string name="detail">Детали</string>
     <string name="register">Регистрация</string>
     <string name="avatar">Аватар</string>
-    <string name="email">Email</string>
     <string name="logout_text">Выйти</string>
     <string name="change_password_text">Смена пароля</string>
     <string name="language_change_text">Язык</string>
+    <string name="logout_confirmation">Вы действительно хотите выйти?</string>
+    <string name="confirm">Подтвердить</string>
+    <string name="cancel">Отменить</string>
+    <string name="change_password">Сменить пароль</string>
+    <string name="old_password">Старый пароль</string>
+    <string name="new_password">Новый пароль</string>
+    <string name="change_password_fragment_title">Изменение пароля</string>
 </resources>
