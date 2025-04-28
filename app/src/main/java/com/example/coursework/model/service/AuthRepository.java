@@ -1,7 +1,6 @@
 package com.example.coursework.model.service;
 
 import com.example.coursework.utils.AuthCallback;
-import com.google.firebase.auth.FirebaseUser;
 
 public interface AuthRepository {
     void signIn(String email, String password, AuthCallback authCallback);

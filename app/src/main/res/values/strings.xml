@@ -32,4 +32,5 @@
     <string name="old_password">Old password</string>
     <string name="new_password">New password</string>
     <string name="change_password_fragment_title">Password change</string>
+    <string name="nothing_was_found">Nothing was found</string>
 </resources>

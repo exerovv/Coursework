@@ -10,6 +10,9 @@ import androidx.navigation.ui.NavigationUI;
 
 import com.example.coursework.R;
 import com.example.coursework.databinding.ActivityMainBinding;
+
+import java.util.Objects;
+
 public class MainActivity extends AppCompatActivity {
     private ActivityMainBinding binding = null;
 
@@ -18,6 +21,8 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         binding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
+        setSupportActionBar(binding.toolbar);
+        Objects.requireNonNull(getSupportActionBar()).setDisplayShowTitleEnabled(false);
         NavController controller = Navigation.findNavController(this, R.id.nav_host_fragment_container);
         AppBarConfiguration appBarConfiguration = new AppBarConfiguration.Builder(controller.getGraph()).build();
         NavigationUI.setupWithNavController(binding.bottomBar, controller);

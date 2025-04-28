@@ -16,8 +16,15 @@ public class LanguageViewModel extends ViewModel {
         return langLiveData;
     }
     public void saveSpinnerPos(int position) {
-        sharedPreferenceRepository.saveSpinnerPos(position);
-        langLiveData.postValue(position);
+        if (!posEquals(position)){
+            sharedPreferenceRepository.saveSpinnerPos(position);
+            langLiveData.postValue(position);
+        }
     }
+
+    private boolean posEquals(int newPosition){
+        int currentPos = sharedPreferenceRepository.getSpinnerPos();
+        return currentPos == newPosition;
+     }
 }
 

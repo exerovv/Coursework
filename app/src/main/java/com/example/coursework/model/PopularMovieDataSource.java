@@ -24,7 +24,7 @@ public class PopularMovieDataSource extends RxPagingSource<Integer, Movie> {
         this.spinnerPos = spinnerPos;
     }
 
-    private final String TAG = "PAGING";
+    private final String TAG = "POPULAR_PAGING";
 
     @NonNull
     @Override
