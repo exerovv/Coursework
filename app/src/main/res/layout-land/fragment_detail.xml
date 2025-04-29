@@ -5,7 +5,7 @@
     android:layout_height="match_parent"
     android:orientation="horizontal"
     android:padding="16dp"
-    tools:context=".ui.fragments.DetailFragment">
+    tools:context=".ui.movie.fragments.DetailFragment">
 
     <ImageView
         android:id="@+id/detail_image"

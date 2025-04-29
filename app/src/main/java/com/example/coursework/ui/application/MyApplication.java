@@ -5,7 +5,7 @@ import android.app.Application;
 import androidx.appcompat.app.AppCompatDelegate;
 import androidx.core.os.LocaleListCompat;
 
-import com.example.coursework.model.service.impl.SharedPreferenceRepositoryImpl;
+import com.example.coursework.data.implementations.SharedPreferenceRepositoryImpl;
 
 public class MyApplication extends Application {
     @Override

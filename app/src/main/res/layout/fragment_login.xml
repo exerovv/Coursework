@@ -7,7 +7,7 @@
     android:orientation="vertical"
     android:padding="80dp"
     android:gravity="center"
-    tools:context=".ui.fragments.auth.LoginFragment">
+    tools:context=".ui.authentication.fragments.LoginFragment">
 
     <EditText
         android:id="@+id/email_login"

@@ -7,7 +7,7 @@
 
     <fragment
         android:id="@+id/searchFragment"
-        android:name="com.example.coursework.ui.fragments.SearchFragment"
+        android:name="com.example.coursework.ui.movie.fragments.SearchFragment"
         android:label="@string/search"
         tools:layout="@layout/fragment_search" >
         <action
@@ -16,12 +16,12 @@
     </fragment>
     <fragment
         android:id="@+id/favoritesFragment"
-        android:name="com.example.coursework.ui.fragments.FavoritesFragment"
+        android:name="com.example.coursework.ui.favorites.fragments.FavoritesFragment"
         android:label="@string/favorites"
         tools:layout="@layout/fragment_favorites" />
     <fragment
         android:id="@+id/profileFragment"
-        android:name="com.example.coursework.ui.fragments.ProfileFragment"
+        android:name="com.example.coursework.ui.profile.fragments.ProfileFragment"
         android:label="@string/profile"
         tools:layout="@layout/fragment_profile" >
         <action
@@ -35,16 +35,16 @@
     </fragment>
     <fragment
         android:id="@+id/detailFragment"
-        android:name="com.example.coursework.ui.fragments.DetailFragment"
+        android:name="com.example.coursework.ui.movie.fragments.DetailFragment"
         android:label="@string/detail"
         tools:layout="@layout/fragment_detail" >
         <argument
             android:name="movie"
-            app:argType="com.example.coursework.model.Movie" />
+            app:argType="com.example.coursework.domain.model.Movie" />
     </fragment>
     <fragment
         android:id="@+id/loginFragment"
-        android:name="com.example.coursework.ui.fragments.auth.LoginFragment"
+        android:name="com.example.coursework.ui.authentication.fragments.LoginFragment"
         android:label="@string/login" >
         <action
             android:id="@+id/to_profile_fragment"
@@ -57,7 +57,7 @@
     </fragment>
     <fragment
         android:id="@+id/registerFragment"
-        android:name="com.example.coursework.ui.fragments.auth.RegisterFragment"
+        android:name="com.example.coursework.ui.authentication.fragments.RegisterFragment"
         android:label="@string/register" >
         <action
             android:id="@+id/to_profile_fragment"
@@ -67,7 +67,7 @@
     </fragment>
     <fragment
         android:id="@+id/passwordChangePassword"
-        android:name="com.example.coursework.ui.fragments.auth.PasswordChangeFragment"
+        android:name="com.example.coursework.ui.authentication.fragments.PasswordChangeFragment"
         android:label="@string/change_password_fragment_title"
         tools:layout="@layout/fragment_password_change_password" >
         <action
