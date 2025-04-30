@@ -1,7 +1,7 @@
 package com.example.coursework.data.implementations;
 
 import com.example.coursework.data.implementations.interceptors.MovieInterceptor;
-import com.example.coursework.data.model.MovieResponse;
+import com.example.coursework.data.model.MoviesDTO;
 import com.example.coursework.domain.repositories.MovieService;
 
 import io.reactivex.rxjava3.core.Single;
@@ -30,12 +30,12 @@ public class MovieServiceImpl {
         }
     }
 
-    public Single<MovieResponse> fetchPopularMovies(int page, String language){
+    public Single<MoviesDTO> fetchPopularMovies(int page, String language){
         return tmdbApi.fetchPopularMovies(page, language)
                 .onErrorResumeNext(Single::error);
     }
 
-    public Single<MovieResponse> fetchMovies(String query, int page, String language){
+    public Single<MoviesDTO> fetchMovies(String query, int page, String language){
         return tmdbApi.fetchMovies(query, page, language)
                 .onErrorResumeNext(Single::error);
     }

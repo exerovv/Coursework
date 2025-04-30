@@ -14,6 +14,7 @@ import com.example.coursework.databinding.ListPopularItemBinding;
 import com.example.coursework.domain.model.Movie;
 import com.example.coursework.ui.movie.adapters.utils.AdapterCallback;
 import com.example.coursework.ui.movie.adapters.utils.MovieDiffUtils;
+import com.example.coursework.ui.utils.MovieUIMapper;
 
 public class PopularMovieAdapter extends PagingDataAdapter<Movie, PopularMovieAdapter.MyViewHolder> {
     public AdapterCallback<Movie> mCallback = null;
@@ -67,7 +68,7 @@ public class PopularMovieAdapter extends PagingDataAdapter<Movie, PopularMovieAd
             binding.title.setText(movie.getTitle());
             String filmRating = movie.getRating();
             binding.rating.setText(filmRating);
-            binding.rating.setTextColor(movie.getRatingColor(filmRating));
+            binding.rating.setTextColor(MovieUIMapper.getRatingColor(filmRating));
         }
     }
 }

@@ -13,6 +13,7 @@ import com.example.coursework.databinding.ListSearchedItemBinding;
 import com.example.coursework.domain.model.Movie;
 import com.example.coursework.ui.movie.adapters.utils.AdapterCallback;
 import com.example.coursework.ui.movie.adapters.utils.MovieDiffUtils;
+import com.example.coursework.ui.utils.MovieUIMapper;
 
 public class SearchMovieAdapter extends PagingDataAdapter<Movie, SearchMovieAdapter.MyViewHolder> {
     public AdapterCallback<Movie> mCallback = null;
@@ -63,7 +64,7 @@ public class SearchMovieAdapter extends PagingDataAdapter<Movie, SearchMovieAdap
             binding.title.setText(movie.getTitle());
             String filmRating = movie.getRating();
             binding.rating.setText(filmRating);
-            binding.rating.setTextColor(movie.getRatingColor(filmRating));
+            binding.rating.setTextColor(MovieUIMapper.getRatingColor(filmRating));
         }
     }
 }

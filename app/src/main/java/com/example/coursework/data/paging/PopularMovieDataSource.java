@@ -7,8 +7,10 @@ import androidx.annotation.Nullable;
 import androidx.paging.PagingState;
 import androidx.paging.rxjava3.RxPagingSource;
 
+import com.example.coursework.data.mapper.MovieMapper;
 import com.example.coursework.domain.model.Movie;
 import com.example.coursework.data.implementations.MovieServiceImpl;
+import com.example.coursework.data.model.MovieDTO;
 
 import java.util.Collections;
 import java.util.List;
@@ -38,15 +40,16 @@ public class PopularMovieDataSource extends RxPagingSource<Integer, Movie> {
         return movieRepository.fetchPopularMovies(currentPage, language)
                 .subscribeOn(Schedulers.io())
                 .map(response -> {
-                            List<Movie> movies = response.getMovies();
+                            List<MovieDTO> dtoList = response.getMovies();
+                            List<Movie> movies = MovieMapper.toMovieList(dtoList);
                             int totalPages = response.getTotalPages();
-                            Log.d(TAG, "Movies count: " + (movies != null ? movies.size() : 0));
+                            Log.d(TAG, "Movies count: " + movies.size());
 
                             Integer prevKey = currentPage == 1 ? null : currentPage - 1;
                             Integer nextKey = currentPage >= totalPages ? null : currentPage + 1;
 
 
-                            if (movies == null || movies.isEmpty()){
+                            if (movies.isEmpty()) {
                                 Log.w(TAG, "Movie list is empty!");
                             }
 

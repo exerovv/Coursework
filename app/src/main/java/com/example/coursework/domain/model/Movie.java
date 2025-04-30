@@ -1,24 +1,24 @@
 package com.example.coursework.domain.model;
 
-import android.annotation.SuppressLint;
-import android.graphics.Color;
-
-import com.google.gson.annotations.SerializedName;
-
 import java.io.Serializable;
+import java.util.Locale;
 import java.util.Objects;
 
 public class Movie implements Serializable {
-    @SerializedName("id")
-    private Integer id;
-    @SerializedName("title")
-    private String title;
-    @SerializedName("overview")
-    private String overview;
-    @SerializedName("poster_path")
-    private String poster_path;
-    @SerializedName("vote_average")
-    private Double rating;
+    private final Integer id;
+    private final String title;
+    private final String overview;
+    private final String poster_path;
+    private final Double rating;
+
+    public Movie(Integer id, String title, String overview, String poster_path, Double rating) {
+        this.id = id;
+        this.title = title;
+        this.overview = overview;
+        this.poster_path = poster_path;
+        this.rating = rating;
+    }
+
     public Integer getId() {
         return id;
     }
@@ -35,16 +35,8 @@ public class Movie implements Serializable {
         return poster_path;
     }
 
-    @SuppressLint("DefaultLocale")
     public String getRating() {
-        return String.format("%.1f", rating);
-    }
-
-    public int getRatingColor(String rating){
-        double filmRate = Double.parseDouble(rating.replace(",", "."));
-        if (filmRate < 4.5) return Color.RED;
-        else if (filmRate >= 4.5 && filmRate < 6.5) return Color.GRAY;
-        else return Color.GREEN;
+        return String.format(Locale.US, "%.1f", rating);
     }
 
     @Override
@@ -52,13 +44,13 @@ public class Movie implements Serializable {
         if (this == o) return true;
         if (!(o instanceof Movie)) return false;
         Movie movie = (Movie) o;
-        return Objects.equals(this.id, movie.id)
-                && Objects.equals(this.title, movie.title)
-                && Objects.equals(this.rating, movie.rating);
+        return Objects.equals(id, movie.id) &&
+                Objects.equals(title, movie.title)  &&
+                Objects.equals(rating, movie.rating);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, title, rating);
+        return Objects.hash(id, title, overview, poster_path, rating);
     }
 }

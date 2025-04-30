@@ -7,6 +7,8 @@ import androidx.annotation.Nullable;
 import androidx.paging.PagingState;
 import androidx.paging.rxjava3.RxPagingSource;
 
+import com.example.coursework.data.mapper.MovieMapper;
+import com.example.coursework.data.model.MovieDTO;
 import com.example.coursework.domain.model.Movie;
 import com.example.coursework.data.implementations.MovieServiceImpl;
 
@@ -56,19 +58,20 @@ public class SearchedMovieDataSource extends RxPagingSource<Integer, Movie> {
         return movieService.fetchMovies(query, currentPage, language)
                 .subscribeOn(Schedulers.io())
                 .map(movieResponse -> {
-                            List<Movie> movieList = movieResponse.getMovies();
+                            List<MovieDTO> dtoList = movieResponse.getMovies();
+                            List<Movie> movies = MovieMapper.toMovieList(dtoList);
                             int totalPages = movieResponse.getTotalPages();
-                            Log.d(TAG, "Movies count: " + (movieList != null ? movieList.size() : 0));
+                            Log.d(TAG, "Movies count: " + movies.size());
 
                             Integer prevKey = currentPage == 1 ? null : currentPage - 1;
                             Integer nextKet = currentPage < totalPages ? currentPage + 1 : null;
 
-                            if (movieList == null || movieList.isEmpty()) {
+                            if (movies.isEmpty()) {
                                 Log.w(TAG, "Movie list is empty!");
                             }
 
                             return (LoadResult<Integer, Movie>) new LoadResult.Page<>(
-                                    Objects.requireNonNullElse(movieList, Collections.emptyList()),
+                                    Objects.requireNonNullElse(movies, Collections.emptyList()),
                                     prevKey,
                                     nextKet
                             );

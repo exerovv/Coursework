@@ -1,21 +1,20 @@
 package com.example.coursework.data.model;
 
-import com.example.coursework.domain.model.Movie;
 import com.google.gson.annotations.SerializedName;
 
 import java.util.List;
 
-public class MovieResponse {
+public class MoviesDTO {
     @SerializedName("results")
-    private List<Movie> movies;
+    public List<MovieDTO> movies;
     @SerializedName("total_pages")
-    private int totalPages;
+    public int totalPages;
 
     public int getTotalPages() {
         return totalPages;
     }
 
-    public List<Movie> getMovies() {
+    public List<MovieDTO> getMovies() {
         return movies;
     }
 }

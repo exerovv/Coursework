@@ -15,6 +15,7 @@ import android.view.ViewGroup;
 import com.bumptech.glide.Glide;
 import com.example.coursework.databinding.FragmentDetailBinding;
 import com.example.coursework.domain.model.Movie;
+import com.example.coursework.ui.utils.MovieUIMapper;
 
 public class DetailFragment extends Fragment {
     private FragmentDetailBinding binding = null;
@@ -43,7 +44,7 @@ public class DetailFragment extends Fragment {
         binding.overview.setMovementMethod(new ScrollingMovementMethod());
         String filmRating = movie.getRating();
         binding.rating.setText(filmRating);
-        binding.rating.setTextColor(movie.getRatingColor(filmRating));
+        binding.rating.setTextColor(MovieUIMapper.getRatingColor(filmRating));
         Log.d("DetailFragment", String.valueOf(binding.rating.getTextColors()));
     }
 }
