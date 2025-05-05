@@ -14,7 +14,6 @@ import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Lifecycle;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.paging.LoadState;
-import androidx.recyclerview.widget.ConcatAdapter;
 
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -23,29 +22,21 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
 
 import com.example.coursework.ui.movie.adapters.SearchMovieAdapter;
 import com.example.coursework.ui.profile.viewmodels.LanguageViewModel;
-import com.example.coursework.ui.movie.viewmodels.MovieViewModel;
+import com.example.coursework.ui.movie.viewmodels.SearchViewModel;
 import com.example.coursework.R;
 import com.example.coursework.databinding.FragmentSearchBinding;
-import com.example.coursework.ui.movie.adapters.PopularMovieAdapter;
-import com.example.coursework.ui.movie.adapters.MovieLoaderStateAdapter;
-
-import java.util.Objects;
 
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers;
 import io.reactivex.rxjava3.disposables.CompositeDisposable;
 
 public class SearchFragment extends Fragment {
     private FragmentSearchBinding binding;
-    private PopularMovieAdapter popularMovieAdapter;
     private SearchMovieAdapter searchMovieAdapter;
-    private MovieViewModel movieViewModel;
+    private SearchViewModel searchViewModel;
     private LanguageViewModel languageViewModel;
-    private ConcatAdapter concatAdapter;
-    private final CompositeDisposable popularCompositeDisposable = new CompositeDisposable();
     private final CompositeDisposable searchCompositeDisposable = new CompositeDisposable();
 
     public SearchFragment() {
@@ -54,11 +45,9 @@ public class SearchFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        movieViewModel = new ViewModelProvider(this).get(MovieViewModel.class);
+        searchViewModel = new ViewModelProvider(this).get(SearchViewModel.class);
         languageViewModel = new ViewModelProvider(requireActivity()).get(LanguageViewModel.class);
-        popularMovieAdapter = new PopularMovieAdapter();
         searchMovieAdapter = new SearchMovieAdapter();
-        concatAdapter = popularMovieAdapter.withLoadStateFooter(new MovieLoaderStateAdapter());
     }
 
     @Override
@@ -83,13 +72,13 @@ public class SearchFragment extends Fragment {
                     menuItem.setOnActionExpandListener(new MenuItem.OnActionExpandListener() {
                         @Override
                         public boolean onMenuItemActionExpand(@NonNull MenuItem menuItem) {
-                            setupUI(true);
+                            binding.warning.setVisibility(GONE);
                             return true;
                         }
 
                         @Override
                         public boolean onMenuItemActionCollapse(@NonNull MenuItem menuItem) {
-                            setupUI(false);
+                            binding.nothingFound.setVisibility(GONE);
                             return true;
                         }
                     });
@@ -97,7 +86,7 @@ public class SearchFragment extends Fragment {
                         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
                             @Override
                             public boolean onQueryTextSubmit(String query) {
-                                movieViewModel.setQuery(query);
+                                searchViewModel.setQuery(query);
                                 return true;
                             }
 
@@ -112,50 +101,34 @@ public class SearchFragment extends Fragment {
             }
         }, getViewLifecycleOwner(), Lifecycle.State.RESUMED);
 
-        movieViewModel.getQueryLiveData().observe(getViewLifecycleOwner(), query -> {
+        searchViewModel.getQueryLiveData().observe(getViewLifecycleOwner(), query -> {
             Log.d("SearchQuery", "live data observed");
             if (query != null) {
                 Integer language = languageViewModel.getLangLiveData().getValue();
                 Log.d("SearchQuery", "Query with lang: " + language);
-                searchCompositeDisposable.add(movieViewModel.getSearchedMoviesPagingData(language, query)
+                searchCompositeDisposable.add(searchViewModel.getSearchedMoviesPagingData(language, query)
                         .observeOn(AndroidSchedulers.mainThread()).subscribe(
-                                movies -> searchMovieAdapter.submitData(getLifecycle(), movies),
-                                error -> Toast.makeText(requireContext(), "Error while loading the data", Toast.LENGTH_SHORT).show()
+                                movies -> searchMovieAdapter.submitData(getLifecycle(), movies)
                         ));
             }
         });
 
-        languageViewModel.getLangLiveData().observe(getViewLifecycleOwner(), integer ->
-                popularCompositeDisposable.add(movieViewModel.getPopularMoviesPagingData(integer)
-                        .observeOn(AndroidSchedulers.mainThread()).subscribe(
-                                movies -> popularMovieAdapter.submitData(getLifecycle(), movies),
-                                error -> Toast.makeText(requireContext(), "Error while loading the data", Toast.LENGTH_SHORT).show()
-                        ))
-        );
+        binding.searchRecyclerView.setAdapter(searchMovieAdapter);
 
-        Objects.requireNonNull(binding.popularRecyclerView).setAdapter(concatAdapter);
-        Objects.requireNonNull(binding.searchRecyclerView).setAdapter(searchMovieAdapter);
         searchMovieAdapter.attachCallback((movie, view1) ->
                 findNavController(requireActivity(), R.id.nav_host_fragment_container)
-                        .navigate(SearchFragmentDirections.toMovieDetailFragment(movie)));
-
-        popularMovieAdapter.attachCallback((movie, view1) ->
-                findNavController(requireActivity(), R.id.nav_host_fragment_container)
-                        .navigate(SearchFragmentDirections.toMovieDetailFragment(movie)));
+                        .navigate(SearchFragmentDirections.toMovieDetailFragment(movie.getId())));
 
         searchMovieAdapter.addLoadStateListener(loadStates -> {
             boolean isLoading = loadStates.getRefresh() instanceof LoadState.Loading;
-            boolean isListEmpty = loadStates.getRefresh() instanceof LoadState.NotLoading && searchMovieAdapter.getItemCount() == 0;
-            Objects.requireNonNull(binding.nothingFound).setVisibility(isListEmpty ? VISIBLE : GONE);
+            boolean isError = loadStates.hasError();
+            boolean isNotLoading = loadStates.getRefresh() instanceof LoadState.NotLoading;
+            boolean isListEmpty = isNotLoading && searchMovieAdapter.getItemCount() == 0;
+            if (isError && searchMovieAdapter.getItemCount() == 0) errorUI(true);
+            if (isNotLoading && !isError) errorUI(false);
+            binding.nothingFound.setVisibility(isListEmpty ? VISIBLE : GONE);
             binding.searchRecyclerView.setVisibility(!isLoading ? VISIBLE : GONE);
-            Objects.requireNonNull(binding.searchProgressBar).setVisibility(isLoading ? VISIBLE : GONE);
-            return null;
-        });
-
-        popularMovieAdapter.addLoadStateListener(loadStates -> {
-            boolean isLoading = loadStates.getRefresh() instanceof LoadState.Loading;
-            binding.popularRecyclerView.setVisibility(!isLoading ? VISIBLE : GONE);
-            Objects.requireNonNull(binding.popularProgressBar).setVisibility(isLoading ? VISIBLE : GONE);
+            binding.searchProgressBar.setVisibility(isLoading ? VISIBLE : GONE);
             return null;
         });
     }
@@ -164,24 +137,18 @@ public class SearchFragment extends Fragment {
     public void onDestroyView() {
         super.onDestroyView();
         binding = null;
-        popularMovieAdapter.detachCallback();
         searchMovieAdapter.detachCallback();
-        popularCompositeDisposable.clear();
         searchCompositeDisposable.clear();
     }
 
     @Override
     public void onDestroy() {
         super.onDestroy();
-        popularMovieAdapter = null;
-        concatAdapter = null;
+        searchMovieAdapter = null;
     }
 
-    public void setupUI(boolean isSearching) {
-        int popularVisibility = !isSearching ? VISIBLE : GONE;
-        int searchVisibility = isSearching ? VISIBLE : GONE;
-        Objects.requireNonNull(binding.searchPart).setVisibility(searchVisibility);
-        Objects.requireNonNull(binding.popularPart).setVisibility(popularVisibility);
-        Objects.requireNonNull(binding.popularTitle).setVisibility(popularVisibility);
+    public void errorUI(boolean isError){
+        binding.warning.setVisibility(isError ? VISIBLE : GONE);
+        binding.mainPart.setVisibility(!isError ? VISIBLE : GONE);
     }
 }

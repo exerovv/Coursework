@@ -28,4 +28,7 @@
     <string name="new_password">Новый пароль</string>
     <string name="change_password_fragment_title">Изменение пароля</string>
     <string name="nothing_was_found">Ничего не нашлось</string>
+    <string name="check_internet_connection_warning">Провертье подключение к интернету</string>
+    <string name="update">Обновить</string>
+    <string name="home">Главная</string>
 </resources>

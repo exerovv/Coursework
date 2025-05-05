@@ -1,6 +1,5 @@
 package com.example.coursework.ui.movie.viewmodels;
 
-
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
@@ -10,21 +9,16 @@ import androidx.paging.PagingConfig;
 import androidx.paging.PagingData;
 import androidx.paging.rxjava3.PagingRx;
 
-import com.example.coursework.data.paging.PopularMovieDataSource;
 import com.example.coursework.domain.model.Movie;
 import com.example.coursework.data.paging.SearchedMovieDataSource;
-import com.example.coursework.ui.movie.viewmodels.states.PopularMovieState;
 import com.example.coursework.ui.movie.viewmodels.states.SearchMovieState;
 
 import io.reactivex.rxjava3.core.Flowable;
 import kotlinx.coroutines.CoroutineScope;
 
-public class MovieViewModel extends ViewModel {
-
-    private final PopularMovieState popularMovieState = new PopularMovieState();
+public class SearchViewModel extends ViewModel {
     private final SearchMovieState searchMovieState = new SearchMovieState();
     private final MutableLiveData<String> queryLiveData = new MutableLiveData<>(null);
-
     public LiveData<String> getQueryLiveData() {
         return queryLiveData;
     }
@@ -33,17 +27,6 @@ public class MovieViewModel extends ViewModel {
         if (query != null && !query.equals(getQueryLiveData().getValue()))
             queryLiveData.setValue(query);
     }
-
-    private Flowable<PagingData<Movie>> popularMoviesPagingData;
-
-    public Flowable<PagingData<Movie>> getPopularMoviesPagingData(int pos) {
-        if (popularMoviesPagingData == null || pos != popularMovieState.getLastPos()) {
-            popularMovieState.setLastPos(pos);
-            fetchPopularMovies(pos);
-        }
-        return popularMoviesPagingData;
-    }
-
     private Flowable<PagingData<Movie>> searchedMoviesPagingData;
 
     public Flowable<PagingData<Movie>> getSearchedMoviesPagingData(int pos, String query) {
@@ -56,24 +39,7 @@ public class MovieViewModel extends ViewModel {
         }
         return searchedMoviesPagingData;
     }
-
-
-    public void fetchPopularMovies(int position) {
-        CoroutineScope viewModelScope = ViewModelKt.getViewModelScope(this);
-        Pager<Integer, Movie> pager = new Pager<>(
-                new PagingConfig(
-                        20,
-                        4,
-                        false,
-                        20 * 3,
-                        20 * 5
-                ),
-                () -> new PopularMovieDataSource(position)
-        );
-        popularMoviesPagingData = PagingRx.cachedIn(PagingRx.getFlowable(pager), viewModelScope);
-    }
-
-    public void searchMovies(int position, String query) {
+    private void searchMovies(int position, String query) {
         CoroutineScope viewModelScope = ViewModelKt.getViewModelScope(this);
         Pager<Integer, Movie> pager = new Pager<>(
                 new PagingConfig(

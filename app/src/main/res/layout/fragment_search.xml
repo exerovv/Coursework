@@ -8,6 +8,29 @@
     android:padding="8dp"
     tools:context=".ui.movie.fragments.SearchFragment">
 
+    <LinearLayout
+        android:id="@+id/warning"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:gravity="center"
+        android:visibility="gone">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/check_internet_connection_warning"
+            android:textStyle="bold"
+            android:textSize="25sp"
+            android:textAlignment="center" />
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:text="@string/update"
+            android:textColor="@color/white"
+            android:background="@drawable/custom_button" />
+    </LinearLayout>
+
     <TextView
         android:id="@+id/nothing_found"
         android:layout_width="match_parent"
@@ -20,11 +43,11 @@
         android:visibility="gone"/>
 
     <LinearLayout
-        android:id="@+id/search_part"
+        android:id="@+id/main_part"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
-        android:visibility="gone">
+        android:visibility="visible">
         <ProgressBar
             android:id="@+id/search_progressBar"
             android:layout_width="wrap_content"
@@ -32,8 +55,7 @@
             android:indeterminateTint="@color/orange"
             android:indeterminate="true"
             android:visibility="gone"
-            android:layout_gravity="center"
-            />
+            android:layout_gravity="center" />
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/search_recycler_view"
@@ -42,42 +64,4 @@
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
             tools:listitem="@layout/list_searched_item" />
     </LinearLayout>
-
-    <TextView
-        android:id="@+id/popular_title"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:padding="8dp"
-        android:text="@string/popular"
-        android:textSize="20sp"
-        android:textStyle="bold"
-        />
-
-    <LinearLayout
-        android:id="@+id/popular_part"
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:orientation="vertical"
-        android:layout_weight="1"
-        android:gravity="center"
-        >
-        <ProgressBar
-            android:id="@+id/popular_progressBar"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:indeterminateTint="@color/orange"
-            android:indeterminate="true"
-            android:visibility="gone"/>
-
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/popular_recycler_view"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
-            app:spanCount="2"
-            tools:listitem="@layout/list_popular_item" />
-    </LinearLayout>
-
-
-
 </LinearLayout>

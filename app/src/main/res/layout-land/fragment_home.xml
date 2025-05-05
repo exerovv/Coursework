@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:padding="8dp"
-    tools:context=".ui.movie.fragments.SearchFragment">
+    tools:context=".ui.movie.fragments.HomeFragment">
 
     <LinearLayout
         android:id="@+id/warning"
@@ -32,36 +32,35 @@
     </LinearLayout>
 
     <TextView
-        android:id="@+id/nothing_found"
+        android:id="@+id/popular_title"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@string/nothing_was_found"
-        android:textSize="22sp"
-        android:textAlignment="center"
-        android:textStyle="bold"
-        android:layout_marginTop="50dp"
-        android:visibility="gone"/>
+        android:padding="8dp"
+        android:text="@string/popular"
+        android:textSize="20sp"
+        android:textStyle="bold" />
 
     <LinearLayout
         android:id="@+id/main_part"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="0dp"
         android:orientation="vertical"
-        android:visibility="visible">
+        android:layout_weight="1"
+        android:gravity="center">
         <ProgressBar
-            android:id="@+id/search_progressBar"
+            android:id="@+id/popular_progressBar"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:indeterminateTint="@color/orange"
             android:indeterminate="true"
-            android:visibility="gone"
-            android:layout_gravity="center" />
+            android:visibility="gone"/>
 
         <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/search_recycler_view"
+            android:id="@+id/popular_recycler_view"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-            tools:listitem="@layout/list_searched_item" />
+            app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
+            app:spanCount="4"
+            tools:listitem="@layout/list_popular_item" />
     </LinearLayout>
 </LinearLayout>
