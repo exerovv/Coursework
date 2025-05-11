@@ -3,10 +3,9 @@ package com.example.coursework.ui.authentication.viewmodels;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
-import com.example.coursework.data.implementations.AuthRepositoryImpl;
+import com.example.coursework.data.providers.implementations.AuthRepositoryImpl;
 import com.example.coursework.ui.authentication.viewmodels.states.AuthCallback;
 import com.example.coursework.ui.authentication.viewmodels.states.AuthState;
-
 import java.util.regex.Pattern;
 
 
@@ -61,10 +60,6 @@ public class AuthViewModel extends ViewModel {
                 authState.postValue(new AuthState.Error(error));
             }
         });
-    }
-
-    public boolean checkUser(){
-        return authRepository.getmAuth().getCurrentUser() != null;
     }
 
     public void changePassword(String email, String oldPassword, String newPassword){

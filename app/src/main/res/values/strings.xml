@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name" translatable="false">Coursework</string>
+    <string name="app_name" translatable="false">PlotSpot</string>
     <string name="favorites">Favorites</string>
     <string name="search">Search</string>
     <string name="offline">Offline</string>
@@ -36,4 +36,9 @@
     <string name="check_internet_connection_warning">Check internet connection</string>
     <string name="update">Update</string>
     <string name="home">Home</string>
+    <string name="warning">Warning</string>
+    <string name="blank_overview">No overview yet</string>
+    <string name="no_user_warning">Log in to add to favorites</string>
+    <string name="favorites_success">Added to favorites</string>
+    <string name="favorites_error">Error when adding to favorites</string>
 </resources>

@@ -8,60 +8,56 @@
     android:padding="8dp"
     tools:context=".ui.movie.fragments.SearchFragment">
 
+    <ProgressBar
+        android:id="@+id/search_progressBar"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:indeterminateTint="@color/orange"
+        android:indeterminate="true"
+        android:visibility="gone"
+        android:layout_gravity="center" />
+
     <LinearLayout
         android:id="@+id/warning"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical"
         android:gravity="center"
+        android:orientation="vertical"
         android:visibility="gone">
+
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/check_internet_connection_warning"
-            android:textStyle="bold"
+            android:textAlignment="center"
             android:textSize="25sp"
-            android:textAlignment="center" />
+            android:textStyle="bold" />
+
         <Button
+            android:id="@+id/warning_btn"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
+            android:background="@drawable/custom_button"
             android:text="@string/update"
-            android:textColor="@color/white"
-            android:background="@drawable/custom_button" />
+            android:textColor="@color/white" />
     </LinearLayout>
 
     <TextView
         android:id="@+id/nothing_found"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@string/nothing_was_found"
-        android:textSize="22sp"
-        android:textAlignment="center"
-        android:textStyle="bold"
         android:layout_marginTop="50dp"
-        android:visibility="gone"/>
+        android:text="@string/nothing_was_found"
+        android:textAlignment="center"
+        android:textSize="22sp"
+        android:textStyle="bold"
+        android:visibility="gone" />
 
-    <LinearLayout
-        android:id="@+id/main_part"
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/search_recycler_view"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical"
-        android:visibility="visible">
-        <ProgressBar
-            android:id="@+id/search_progressBar"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:indeterminateTint="@color/orange"
-            android:indeterminate="true"
-            android:visibility="gone"
-            android:layout_gravity="center" />
-
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/search_recycler_view"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-            tools:listitem="@layout/list_searched_item" />
-    </LinearLayout>
+        android:layout_height="wrap_content"
+        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+        tools:listitem="@layout/list_searched_item" />
 </LinearLayout>

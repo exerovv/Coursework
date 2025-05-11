@@ -5,31 +5,9 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
+    android:gravity="center"
     android:padding="8dp"
     tools:context=".ui.movie.fragments.HomeFragment">
-
-    <LinearLayout
-        android:id="@+id/warning"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical"
-        android:gravity="center"
-        android:visibility="gone">
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/check_internet_connection_warning"
-            android:textStyle="bold"
-            android:textSize="25sp"
-            android:textAlignment="center" />
-        <Button
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
-            android:text="@string/update"
-            android:textColor="@color/white"
-            android:background="@drawable/custom_button" />
-    </LinearLayout>
 
     <TextView
         android:id="@+id/popular_title"
@@ -40,27 +18,45 @@
         android:textSize="20sp"
         android:textStyle="bold" />
 
+    <ProgressBar
+        android:id="@+id/popular_progressBar"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:indeterminate="true"
+        android:indeterminateTint="@color/orange"
+        android:visibility="gone" />
+
     <LinearLayout
-        android:id="@+id/main_part"
+        android:id="@+id/warning"
         android:layout_width="match_parent"
-        android:layout_height="0dp"
+        android:layout_height="match_parent"
+        android:gravity="center"
         android:orientation="vertical"
-        android:layout_weight="1"
-        android:gravity="center">
-        <ProgressBar
-            android:id="@+id/popular_progressBar"
+        android:visibility="gone">
+
+        <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:indeterminateTint="@color/orange"
-            android:indeterminate="true"
-            android:visibility="gone"/>
+            android:text="@string/check_internet_connection_warning"
+            android:textAlignment="center"
+            android:textSize="25sp"
+            android:textStyle="bold" />
 
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/popular_recycler_view"
-            android:layout_width="match_parent"
+        <Button
+            android:id="@+id/warning_btn"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
-            app:spanCount="2"
-            tools:listitem="@layout/list_popular_item" />
+            android:layout_marginTop="8dp"
+            android:background="@drawable/custom_button"
+            android:text="@string/update"
+            android:textColor="@color/white" />
     </LinearLayout>
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/popular_recycler_view"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
+        app:spanCount="2"
+        tools:listitem="@layout/list_popular_item" />
 </LinearLayout>

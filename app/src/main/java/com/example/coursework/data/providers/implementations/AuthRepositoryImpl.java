@@ -1,4 +1,4 @@
-package com.example.coursework.data.implementations;
+package com.example.coursework.data.providers.implementations;
 
 import android.util.Log;
 

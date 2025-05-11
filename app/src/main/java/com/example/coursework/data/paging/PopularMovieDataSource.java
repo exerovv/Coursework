@@ -9,7 +9,7 @@ import androidx.paging.rxjava3.RxPagingSource;
 
 import com.example.coursework.data.mapper.MovieMapper;
 import com.example.coursework.domain.model.Movie;
-import com.example.coursework.data.implementations.MovieServiceImpl;
+import com.example.coursework.data.providers.implementations.MovieServiceImpl;
 import com.example.coursework.data.model.MovieDTO;
 
 import java.util.Collections;

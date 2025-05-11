@@ -5,6 +5,7 @@ import static android.view.View.VISIBLE;
 import static androidx.navigation.Navigation.findNavController;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -25,8 +26,6 @@ import com.example.coursework.ui.profile.viewmodels.LanguageViewModel;
 
 import java.util.Objects;
 
-import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers;
-import io.reactivex.rxjava3.disposables.CompositeDisposable;
 
 public class HomeFragment extends Fragment {
     private FragmentHomeBinding binding;
@@ -34,7 +33,8 @@ public class HomeFragment extends Fragment {
     private HomeViewModel homeViewModel;
     private LanguageViewModel languageViewModel;
     private ConcatAdapter concatAdapter;
-    private final CompositeDisposable popularCompositeDisposable = new CompositeDisposable();
+
+    private final String TAG = HomeViewModel.class.getSimpleName();
 
     public HomeFragment() {
     }
@@ -57,11 +57,17 @@ public class HomeFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        languageViewModel.getLangLiveData().observe(getViewLifecycleOwner(), integer ->
-                popularCompositeDisposable.add(homeViewModel.getPopularMoviesPagingData(integer)
-                        .observeOn(AndroidSchedulers.mainThread()).subscribe(
-                                movies -> popularMovieAdapter.submitData(getLifecycle(), movies)
-                        ))
+        homeViewModel.getIsError().observe(getViewLifecycleOwner(), this::errorUI);
+
+        languageViewModel.getLangLiveData().observe(getViewLifecycleOwner(), lang ->
+                homeViewModel.getPopularMoviesPagingData(lang).observe(
+                        getViewLifecycleOwner(),
+                        moviePagingData -> popularMovieAdapter.submitData(getLifecycle(), moviePagingData)
+                )
+        );
+
+        binding.warningBtn.setOnClickListener(view2 -> homeViewModel.fetchPopularMovies(
+                Objects.requireNonNull(languageViewModel.getLangLiveData().getValue()))
         );
 
         Objects.requireNonNull(binding.popularRecyclerView).setAdapter(concatAdapter);
@@ -71,14 +77,15 @@ public class HomeFragment extends Fragment {
                         .navigate(HomeFragmentDirections.toMovieDetailFragment(movie.getId())));
 
         popularMovieAdapter.addLoadStateListener(loadStates -> {
+            Log.d(TAG, loadStates.getRefresh().getClass().getSimpleName());
             boolean isLoading = loadStates.getRefresh() instanceof LoadState.Loading;
             boolean isError = loadStates.hasError();
-            boolean isNotLoading = loadStates.getRefresh() instanceof LoadState.NotLoading;
-            boolean isListEmpty = popularMovieAdapter.getItemCount() == 0;
-            if (isError && isListEmpty) errorUI(true);
-            if (isNotLoading && !isError) errorUI(false);
-            binding.popularRecyclerView.setVisibility(!isLoading ? VISIBLE : GONE);
-            binding.popularProgressBar.setVisibility(isLoading ? VISIBLE : GONE);
+            if (isError) homeViewModel.setIsError(true);
+            if (!isError && !isLoading) {
+                homeViewModel.setIsError(false);
+                loadingUI(false);
+            }
+            loadingUI(isLoading);
             return null;
         });
     }
@@ -88,7 +95,6 @@ public class HomeFragment extends Fragment {
         super.onDestroyView();
         binding = null;
         popularMovieAdapter.detachCallback();
-        popularCompositeDisposable.clear();
     }
 
     @Override
@@ -98,8 +104,12 @@ public class HomeFragment extends Fragment {
         concatAdapter = null;
     }
 
-    public void errorUI(boolean isError) {
+    private void errorUI(boolean isError) {
         binding.warning.setVisibility(isError ? VISIBLE : GONE);
-        binding.mainPart.setVisibility(!isError ? VISIBLE : GONE);
+    }
+
+    private void loadingUI(boolean isLoading){
+        binding.popularRecyclerView.setVisibility(!isLoading ? VISIBLE : GONE);
+        binding.popularProgressBar.setVisibility(isLoading ? VISIBLE : GONE);
     }
 }

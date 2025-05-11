@@ -1,4 +1,4 @@
-package com.example.coursework.data.implementations.interceptors;
+package com.example.coursework.data.providers.implementations.interceptors;
 
 import androidx.annotation.NonNull;
 

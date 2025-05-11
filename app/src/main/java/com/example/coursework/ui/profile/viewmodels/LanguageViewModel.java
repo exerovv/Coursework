@@ -4,7 +4,7 @@ import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
-import com.example.coursework.data.implementations.SharedPreferenceRepositoryImpl;
+import com.example.coursework.data.providers.implementations.SharedPreferenceRepositoryImpl;
 
 public class LanguageViewModel extends ViewModel {
     private final SharedPreferenceRepositoryImpl sharedPreferenceRepository =

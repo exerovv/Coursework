@@ -1,13 +1,14 @@
 package com.example.coursework.ui.movie.viewmodels.states;
-public class SingleMovieState {
-    int lastPos = 0;
 
-    public int getLastPos() {
+public class SingleMovieState {
+    public static int lastPos = 0;
+
+    public static int getLastPos() {
         return lastPos;
     }
 
-    public void setLastPos(int lastPos) {
-        this.lastPos = lastPos;
+    public static void setLastPos(int lastPos) {
+        SingleMovieState.lastPos = lastPos;
     }
 }
 

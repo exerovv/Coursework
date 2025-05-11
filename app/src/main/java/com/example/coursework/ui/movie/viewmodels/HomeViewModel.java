@@ -1,5 +1,7 @@
 package com.example.coursework.ui.movie.viewmodels;
 
+import androidx.lifecycle.LiveData;
+import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 import androidx.lifecycle.ViewModelKt;
 import androidx.paging.Pager;
@@ -11,22 +13,35 @@ import com.example.coursework.data.paging.PopularMovieDataSource;
 import com.example.coursework.domain.model.Movie;
 import com.example.coursework.ui.movie.viewmodels.states.PopularMovieState;
 
-import io.reactivex.rxjava3.core.Flowable;
+import io.reactivex.rxjava3.disposables.Disposable;
 import kotlinx.coroutines.CoroutineScope;
 
 public class HomeViewModel extends ViewModel {
     private final PopularMovieState popularMovieState = new PopularMovieState();
-    private Flowable<PagingData<Movie>> popularMoviesPagingData;
+    private final MutableLiveData<Boolean> isError = new MutableLiveData<>(false);
 
-    public Flowable<PagingData<Movie>> getPopularMoviesPagingData(int pos) {
-        if (popularMoviesPagingData == null || pos != popularMovieState.getLastPos()) {
+    public LiveData<Boolean> getIsError() {
+        return isError;
+    }
+
+    public void setIsError(boolean flag){
+        if (flag != Boolean.TRUE.equals(isError.getValue())){
+            isError.setValue(flag);
+        }
+    }
+
+    private Disposable subscribe;
+    private final MutableLiveData<PagingData<Movie>> popularMoviesPagingData = new MutableLiveData<>();
+    public LiveData<PagingData<Movie>> getPopularMoviesPagingData(int pos) {
+        if (popularMoviesPagingData.getValue() == null || pos != popularMovieState.getLastPos()) {
+            if (popularMoviesPagingData.getValue() != null) subscribe.dispose();
             popularMovieState.setLastPos(pos);
             fetchPopularMovies(pos);
         }
         return popularMoviesPagingData;
     }
 
-    private void fetchPopularMovies(int position) {
+    public void fetchPopularMovies(int position) {
         CoroutineScope viewModelScope = ViewModelKt.getViewModelScope(this);
         Pager<Integer, Movie> pager = new Pager<>(
                 new PagingConfig(
@@ -38,6 +53,7 @@ public class HomeViewModel extends ViewModel {
                 ),
                 () -> new PopularMovieDataSource(position)
         );
-        popularMoviesPagingData = PagingRx.cachedIn(PagingRx.getFlowable(pager), viewModelScope);
+        subscribe = PagingRx.cachedIn(PagingRx.getFlowable(pager), viewModelScope)
+                .subscribe(popularMoviesPagingData::postValue);
     }
 }

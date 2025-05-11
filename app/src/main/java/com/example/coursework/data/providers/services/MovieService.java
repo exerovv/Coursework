@@ -1,4 +1,4 @@
-package com.example.coursework.domain.repositories;
+package com.example.coursework.data.providers.services;
 
 import com.example.coursework.data.model.MovieDTO;
 import com.example.coursework.data.model.MoviesDTO;

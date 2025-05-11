@@ -13,7 +13,7 @@ import com.example.coursework.domain.model.Movie;
 import com.example.coursework.data.paging.SearchedMovieDataSource;
 import com.example.coursework.ui.movie.viewmodels.states.SearchMovieState;
 
-import io.reactivex.rxjava3.core.Flowable;
+import io.reactivex.rxjava3.disposables.Disposable;
 import kotlinx.coroutines.CoroutineScope;
 
 public class SearchViewModel extends ViewModel {
@@ -27,19 +27,34 @@ public class SearchViewModel extends ViewModel {
         if (query != null && !query.equals(getQueryLiveData().getValue()))
             queryLiveData.setValue(query);
     }
-    private Flowable<PagingData<Movie>> searchedMoviesPagingData;
+    private final MutableLiveData<PagingData<Movie>> searchedMoviesPagingData = new MutableLiveData<>();
+    private Disposable subscribe;
 
-    public Flowable<PagingData<Movie>> getSearchedMoviesPagingData(int pos, String query) {
-        if (searchedMoviesPagingData == null ||
+    public LiveData<PagingData<Movie>> getSearchedMoviesPagingData(int pos, String query) {
+        if (searchedMoviesPagingData.getValue() == null ||
                 pos != searchMovieState.getLastPos() ||
                 !query.equals(searchMovieState.getLastQuery())) {
+            if (searchedMoviesPagingData.getValue() != null) subscribe.dispose();
             searchMovieState.setLastPos(pos);
             searchMovieState.setLastQuery(query);
             searchMovies(pos, query);
         }
         return searchedMoviesPagingData;
     }
-    private void searchMovies(int position, String query) {
+
+    private final MutableLiveData<Boolean> isError = new MutableLiveData<>(false);
+
+    public LiveData<Boolean> getIsError() {
+        return isError;
+    }
+
+    public void setIsError(boolean flag){
+        if (flag != Boolean.TRUE.equals(isError.getValue())){
+            isError.setValue(flag);
+        }
+    }
+
+    public void searchMovies(int position, String query) {
         CoroutineScope viewModelScope = ViewModelKt.getViewModelScope(this);
         Pager<Integer, Movie> pager = new Pager<>(
                 new PagingConfig(
@@ -51,6 +66,7 @@ public class SearchViewModel extends ViewModel {
                 ),
                 () -> new SearchedMovieDataSource(position, query)
         );
-        searchedMoviesPagingData = PagingRx.cachedIn(PagingRx.getFlowable(pager), viewModelScope);
+        subscribe = PagingRx.cachedIn(PagingRx.getFlowable(pager), viewModelScope)
+                .subscribe(searchedMoviesPagingData::postValue);
     }
 }

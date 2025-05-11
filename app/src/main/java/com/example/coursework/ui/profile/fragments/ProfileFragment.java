@@ -23,12 +23,14 @@ import com.example.coursework.ui.authentication.fragments.LogoutConfirmationFrag
 import com.example.coursework.ui.authentication.viewmodels.AuthViewModel;
 import com.example.coursework.R;
 import com.example.coursework.databinding.FragmentProfileBinding;
+import com.example.coursework.ui.authentication.viewmodels.UserSessionViewModel;
 import com.example.coursework.ui.profile.viewmodels.LanguageViewModel;
 import com.example.coursework.ui.authentication.fragments.utils.AlertDialogCallback;
 
 
 public class ProfileFragment extends Fragment {
     private AuthViewModel authViewModel;
+    private UserSessionViewModel userSessionViewModel;
     private LanguageViewModel languageViewModel;
     private LogoutConfirmationFragmentDialog logoutConfirmationFragmentDialog;
     private FragmentProfileBinding binding = null;
@@ -39,6 +41,7 @@ public class ProfileFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         authViewModel = new ViewModelProvider(requireActivity()).get(AuthViewModel.class);
+        userSessionViewModel = new ViewModelProvider(requireActivity()).get(UserSessionViewModel.class);
         languageViewModel = new ViewModelProvider(requireActivity()).get(LanguageViewModel.class);
         logoutConfirmationFragmentDialog = new LogoutConfirmationFragmentDialog();
     }
@@ -53,7 +56,7 @@ public class ProfileFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         binding.getRoot().post(() -> {
-            if (!authViewModel.checkUser()){
+            if (!userSessionViewModel.checkUser()){
                 Log.d("ProfileFragment", "navigation executed");
                 findNavController(requireActivity(), R.id.nav_host_fragment_container)
                         .navigate(ProfileFragmentDirections.toLoginFragment());

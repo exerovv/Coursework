@@ -31,4 +31,9 @@
     <string name="check_internet_connection_warning">Провертье подключение к интернету</string>
     <string name="update">Обновить</string>
     <string name="home">Главная</string>
+    <string name="warning">Предупреждение</string>
+    <string name="blank_overview">Описание еще не добавлено</string>
+    <string name="no_user_warning">Авторизуйтесь, чтобы добавить в избранное</string>
+    <string name="favorites_success">Добавлено в избарнные</string>
+    <string name="favorites_error">Ошибка при добавлении в избранное</string>
 </resources>
