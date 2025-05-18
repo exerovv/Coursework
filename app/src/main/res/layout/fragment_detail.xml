@@ -66,8 +66,7 @@
             android:layout_height="wrap_content"
             android:layout_margin="4dp"
             android:contentDescription="@string/favorite_button_text"
-            android:src="@drawable/favorites_btn"
-            app:tint="@drawable/favorite_btn_color_selector"/>
+            android:src="@drawable/favorites_btn_selector" />
 
         <TextView
             android:id="@+id/rating"

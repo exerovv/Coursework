@@ -23,7 +23,6 @@ import com.example.coursework.ui.authentication.viewmodels.UserSessionViewModel;
 import com.example.coursework.ui.favorites.adapters.FavoriteAdapter;
 import com.example.coursework.ui.favorites.viewmodels.FavoriteViewModel;
 import com.example.coursework.ui.favorites.viewmodels.states.FavoriteState;
-import com.example.coursework.ui.movie.viewmodels.states.SingleMovieUiState;
 import com.example.coursework.ui.profile.viewmodels.LanguageViewModel;
 import com.example.coursework.utils.MovieDiffUtils;
 
@@ -111,16 +110,16 @@ public class FavoritesFragment extends Fragment {
                         favoriteViewModel.setIsError(false);
                         loadingUI(false);
                     }
-                    if (state instanceof SingleMovieUiState.Error) {
+                    if (state instanceof FavoriteState.Error) {
                         Log.d(TAG, "Error");
                         favoriteViewModel.setIsError(true);
                         loadingUI(false);
                     }
-                    if (state instanceof SingleMovieUiState.Loading) {
+                    if (state instanceof FavoriteState.Loading) {
                         Log.d(TAG, "Loading");
                         loadingUI(true);
                     }
-                    if (state instanceof SingleMovieUiState.Default) {
+                    if (state instanceof FavoriteState.Default) {
                         Log.d(TAG, "Default");
                         loadingUI(false);
                     }
