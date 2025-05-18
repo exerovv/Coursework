@@ -1,10 +1,10 @@
 package com.example.coursework.domain.model;
 
-import java.io.Serializable;
 import java.util.Locale;
 import java.util.Objects;
 
-public class Movie implements Serializable {
+//"Чистый" класс фильмов
+public class Movie {
     private final Integer id;
     private final String title;
     private final String overview;

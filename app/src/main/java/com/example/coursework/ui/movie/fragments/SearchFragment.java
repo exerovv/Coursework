@@ -61,7 +61,7 @@ public class SearchFragment extends Fragment {
         requireActivity().addMenuProvider(new MenuProvider() {
             @Override
             public void onCreateMenu(@NonNull Menu menu, @NonNull MenuInflater menuInflater) {
-                menuInflater.inflate(R.menu.options_menu, menu);
+                menuInflater.inflate(R.menu.search_menu, menu);
             }
 
             @Override

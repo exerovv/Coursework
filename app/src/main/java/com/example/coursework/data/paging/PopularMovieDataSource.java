@@ -19,24 +19,30 @@ import java.util.Objects;
 import io.reactivex.rxjava3.core.Single;
 import io.reactivex.rxjava3.schedulers.Schedulers;
 
+//Класс - DataSource для paging, определяет откуда и как будут получаться данные для главной страницы
 public class PopularMovieDataSource extends RxPagingSource<Integer, Movie> {
+    //Экземпляр репозитория
     private final MovieServiceImpl movieRepository = new MovieServiceImpl();
+    //Переменная, которая хранит позицию в спиннере, отвечающая за язык приложения
     private final int spinnerPos;
 
     public PopularMovieDataSource(int spinnerPos) {
         this.spinnerPos = spinnerPos;
     }
 
-    private final String TAG = "POPULAR_PAGING";
+    private final String TAG = PopularMovieDataSource.class.getSimpleName();
 
+    //Метод для непосредственной загрузки данных
     @NonNull
     @Override
     public Single<LoadResult<Integer, Movie>> loadSingle(@NonNull LoadParams<Integer> loadParams) {
+        //Текущая страница
         int currentPage = loadParams.getKey() != null ? loadParams.getKey() : 1;
         Log.d(TAG, "Loading page: " + currentPage);
 
         String language = spinnerPos == 0 ? "en-US" : "ru-RU";
 
+        //Возврщает либо список фильмов, либо ошибку
         return movieRepository.fetchPopularMovies(currentPage, language)
                 .subscribeOn(Schedulers.io())
                 .map(response -> {
@@ -66,17 +72,22 @@ public class PopularMovieDataSource extends RxPagingSource<Integer, Movie> {
 
     }
 
+    //Метод для получения RefreshKey на случай, если мы, например, пролистали несколько страниц и
+    //paging необходимо получить актуальный ключ
     @Nullable
     @Override
     public Integer getRefreshKey(@NonNull PagingState<Integer, Movie> pagingState) {
+        //Последняя загруженная позиция
         Integer anchorPosition = pagingState.getAnchorPosition();
         if (anchorPosition == null) {
             return null;
         }
+        //Ближайшая к последней загруженной странице страница
         LoadResult.Page<Integer, Movie> page = pagingState.closestPageToPosition(anchorPosition);
         if (page == null) {
             return null;
         }
+        //Получаем корректную текущую страницу
         Integer currentPage = null;
         if (page.getPrevKey() != null) {
             currentPage = page.getPrevKey() + 1;

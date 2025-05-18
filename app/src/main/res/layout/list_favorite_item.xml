@@ -23,20 +23,10 @@
 
         <TextView
             android:id="@+id/title"
-            android:layout_width="0dp"
+            android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_weight="1"
             android:maxLines="2"
             android:ellipsize="end"
             tools:text="dafjdjfasjfddfdfdfdfdfdfdfdfdfdfdfdfdf" />
-
-        <TextView
-            android:id="@+id/rating"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:gravity="center"
-            android:layout_marginStart="8dp"
-            android:textSize="15sp"
-            tools:text="jfa" />
     </LinearLayout>
 </LinearLayout>

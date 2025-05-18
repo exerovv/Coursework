@@ -18,7 +18,11 @@
         android:id="@+id/favoritesFragment"
         android:name="com.example.coursework.ui.favorites.fragments.FavoritesFragment"
         android:label="@string/favorites"
-        tools:layout="@layout/fragment_favorites" />
+        tools:layout="@layout/fragment_favorites" >
+        <action
+            android:id="@+id/to_movie_detail_fragment"
+            app:destination="@id/detailFragment" />
+    </fragment>
     <fragment
         android:id="@+id/profileFragment"
         android:name="com.example.coursework.ui.profile.fragments.ProfileFragment"
@@ -69,7 +73,7 @@
         android:id="@+id/passwordChangePassword"
         android:name="com.example.coursework.ui.authentication.fragments.PasswordChangeFragment"
         android:label="@string/change_password_fragment_title"
-        tools:layout="@layout/fragment_password_change_password" >
+        tools:layout="@layout/fragment_change_password" >
         <action
             android:id="@+id/to_login_fragment"
             app:destination="@id/loginFragment" />

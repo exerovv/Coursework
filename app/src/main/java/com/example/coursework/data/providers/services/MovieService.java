@@ -8,6 +8,7 @@ import retrofit2.http.GET;
 import retrofit2.http.Path;
 import retrofit2.http.Query;
 
+//Ретрофит интерфейс для работы с api, в котором описание тип запроса и необходимые параметры
 public interface MovieService {
     @GET("movie/popular")
     Single<MoviesDTO> fetchPopularMovies(

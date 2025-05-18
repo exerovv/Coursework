@@ -15,12 +15,12 @@ import android.view.ViewGroup;
 import android.widget.Toast;
 
 import com.example.coursework.R;
-import com.example.coursework.databinding.FragmentPasswordChangePasswordBinding;
+import com.example.coursework.databinding.FragmentChangePasswordBinding;
 import com.example.coursework.ui.authentication.viewmodels.AuthViewModel;
 import com.example.coursework.ui.authentication.viewmodels.states.AuthState;
 
 public class PasswordChangeFragment extends Fragment {
-    private FragmentPasswordChangePasswordBinding binding = null;
+    private FragmentChangePasswordBinding binding = null;
     private AuthViewModel authViewModel;
 
     public PasswordChangeFragment() {
@@ -34,7 +34,7 @@ public class PasswordChangeFragment extends Fragment {
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        binding = FragmentPasswordChangePasswordBinding.inflate(inflater, container, false);
+        binding = FragmentChangePasswordBinding.inflate(inflater, container, false);
         return binding.getRoot();
     }
 

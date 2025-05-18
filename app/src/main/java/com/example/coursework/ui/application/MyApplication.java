@@ -7,6 +7,7 @@ import androidx.core.os.LocaleListCompat;
 
 import com.example.coursework.data.providers.implementations.SharedPreferenceRepositoryImpl;
 
+//Класс приложения для инициализации экземпляра SP и первичной установки языка
 public class MyApplication extends Application {
     @Override
     public void onCreate() {

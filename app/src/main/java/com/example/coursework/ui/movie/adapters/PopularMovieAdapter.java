@@ -12,15 +12,15 @@ import com.bumptech.glide.Glide;
 import com.example.coursework.R;
 import com.example.coursework.databinding.ListPopularItemBinding;
 import com.example.coursework.domain.model.Movie;
-import com.example.coursework.ui.movie.adapters.utils.AdapterCallback;
-import com.example.coursework.ui.movie.adapters.utils.MovieDiffUtils;
-import com.example.coursework.ui.utils.MovieUIMapper;
+import com.example.coursework.utils.AdapterCallback;
+import com.example.coursework.utils.MoviePagingDiffUtils;
+import com.example.coursework.utils.MovieUIMapper;
 
 public class PopularMovieAdapter extends PagingDataAdapter<Movie, PopularMovieAdapter.MyViewHolder> {
     public AdapterCallback<Movie> mCallback = null;
 
     public PopularMovieAdapter() {
-        super(new MovieDiffUtils());
+        super(new MoviePagingDiffUtils());
     }
 
     public void attachCallback(AdapterCallback<Movie> callback) {

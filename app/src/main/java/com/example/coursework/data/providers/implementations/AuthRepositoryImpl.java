@@ -10,6 +10,7 @@ import com.google.firebase.auth.EmailAuthProvider;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
+//Репозиторий для авторизации
 public class AuthRepositoryImpl implements AuthRepository {
     private final FirebaseAuth mAuth;
 
@@ -23,6 +24,8 @@ public class AuthRepositoryImpl implements AuthRepository {
         this.mAuth = FirebaseAuth.getInstance();
     }
 
+    //Метод для регистрации
+    @Override
     public void signUp(String email, String password, AuthCallback authCallback) {
         mAuth.createUserWithEmailAndPassword(email, password)
                 .addOnCompleteListener(task -> {
@@ -37,11 +40,14 @@ public class AuthRepositoryImpl implements AuthRepository {
                 });
     }
 
+    //Метод для смены пароля
     @Override
     public void changePassword(String email, String oldPassword, String newPassword, AuthCallback authCallback) {
         FirebaseUser user = mAuth.getCurrentUser();
         if (user != null){
+            //Текущие данные для авторизации
             AuthCredential credential = EmailAuthProvider.getCredential(email, oldPassword);
+            //Для смены пароля требуется ре-аутентификация
             user.reauthenticate(credential).addOnCompleteListener(task -> {
                 if (task.isSuccessful()){
                     user.updatePassword(newPassword).addOnCompleteListener(task1 -> {
@@ -66,11 +72,13 @@ public class AuthRepositoryImpl implements AuthRepository {
         }
     }
 
+    //Метод для выхода из аккаунта
     @Override
     public void logout() {
         mAuth.signOut();
     }
 
+    //Метод для авторизации
     public void signIn(String email, String password, AuthCallback authCallback) {
         mAuth.signInWithEmailAndPassword(email, password)
                 .addOnCompleteListener(task -> {

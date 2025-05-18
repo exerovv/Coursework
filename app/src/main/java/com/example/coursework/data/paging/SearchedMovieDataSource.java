@@ -18,8 +18,11 @@ import java.util.Objects;
 
 import io.reactivex.rxjava3.core.Single;
 import io.reactivex.rxjava3.schedulers.Schedulers;
+//Класс - DataSource для paging, определяет откуда и как будут получаться данные для страницы поиска
 public class SearchedMovieDataSource extends RxPagingSource<Integer, Movie> {
+    //Экземпляр репозитория
     private final MovieServiceImpl movieService = new MovieServiceImpl();
+    //Переменная, которая хранит позицию в спиннере, отвечающая за язык приложения
     private final int spinnerPos;
     private final String query;
 
@@ -30,13 +33,18 @@ public class SearchedMovieDataSource extends RxPagingSource<Integer, Movie> {
         this.query = query;
     }
 
+    //Метод для получения RefreshKey на случай, если мы, например, пролистали несколько страниц и
+    //paging необходимо получить актуальный ключ
     @Nullable
     @Override
     public Integer getRefreshKey(@NonNull PagingState<Integer, Movie> pagingState) {
+        //Последняя загруженная позиция
         Integer anchorPosition = pagingState.getAnchorPosition();
         if (anchorPosition == null) return null;
+        //Ближайшая к последней загруженной странице страница
         LoadResult.Page<Integer, Movie> page = pagingState.closestPageToPosition(anchorPosition);
         if (page == null) return null;
+        //Получаем корректную текущую страницу
         Integer currentPage = null;
         if (page.getPrevKey() != null) {
             currentPage = page.getPrevKey() + 1;
@@ -48,13 +56,16 @@ public class SearchedMovieDataSource extends RxPagingSource<Integer, Movie> {
         return currentPage;
     }
 
+    //Метод для непосредственной загрузки данных
     @NonNull
     @Override
     public Single<LoadResult<Integer, Movie>> loadSingle(@NonNull LoadParams<Integer> loadParams) {
+        //Текущая страница
         int currentPage = loadParams.getKey() != null ? loadParams.getKey() : 1;
         String language = spinnerPos == 0 ? "en-US" : "ru-RU";
         Log.d(TAG, "Loading page: " + currentPage);
 
+        //Возврщает либо список фильмов, либо ошибку
         return movieService.fetchMovies(query, currentPage, language)
                 .subscribeOn(Schedulers.io())
                 .map(movieResponse -> {

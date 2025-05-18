@@ -6,12 +6,14 @@ import androidx.lifecycle.ViewModel;
 import com.example.coursework.data.providers.implementations.AuthRepositoryImpl;
 import com.example.coursework.ui.authentication.viewmodels.states.AuthCallback;
 import com.example.coursework.ui.authentication.viewmodels.states.AuthState;
+import com.example.coursework.utils.SingleLiveEvent;
+
 import java.util.regex.Pattern;
 
 
 public class AuthViewModel extends ViewModel {
     private final AuthRepositoryImpl authRepository = new AuthRepositoryImpl();
-    private final MutableLiveData<AuthState> authState = new MutableLiveData<>(new AuthState.Default());
+    private final SingleLiveEvent<AuthState> authState = new SingleLiveEvent<>(new AuthState.Default());
     public MutableLiveData<AuthState> getAuthState() {
         return authState;
     }

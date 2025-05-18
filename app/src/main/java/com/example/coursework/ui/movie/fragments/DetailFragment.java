@@ -22,13 +22,14 @@ import com.example.coursework.databinding.FragmentDetailBinding;
 import com.example.coursework.domain.model.Movie;
 import com.example.coursework.ui.authentication.viewmodels.UserSessionViewModel;
 import com.example.coursework.ui.favorites.viewmodels.FavoriteViewModel;
-import com.example.coursework.ui.favorites.viewmodels.states.FavoriteState;
+import com.example.coursework.ui.favorites.viewmodels.states.FavoriteSnackBarState;
 import com.example.coursework.ui.movie.viewmodels.DetailViewModel;
 import com.example.coursework.ui.movie.viewmodels.states.SingleMovieUiState;
 import com.example.coursework.ui.profile.viewmodels.LanguageViewModel;
-import com.example.coursework.ui.utils.MovieUIMapper;
+import com.example.coursework.utils.MovieUIMapper;
 import com.google.android.material.snackbar.Snackbar;
 
+import java.util.HashSet;
 import java.util.Objects;
 
 public class DetailFragment extends Fragment {
@@ -38,6 +39,9 @@ public class DetailFragment extends Fragment {
     private FavoriteViewModel favoriteViewModel;
     private UserSessionViewModel userSessionViewModel;
 
+    private int movieId;
+    private Movie data = null;
+
     private final String TAG = DetailFragment.class.getSimpleName();
 
     public DetailFragment() {
@@ -46,9 +50,10 @@ public class DetailFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        movieId = DetailFragmentArgs.fromBundle(getArguments()).getMovieId();
         detailViewModel = new ViewModelProvider(this).get(DetailViewModel.class);
         languageViewModel = new ViewModelProvider(requireActivity()).get(LanguageViewModel.class);
-        favoriteViewModel = new ViewModelProvider(this).get(FavoriteViewModel.class);
+        favoriteViewModel = new ViewModelProvider(requireActivity()).get(FavoriteViewModel.class);
         userSessionViewModel = new ViewModelProvider(requireActivity()).get(UserSessionViewModel.class);
     }
 
@@ -61,8 +66,8 @@ public class DetailFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        binding.progressBar.setVisibility(VISIBLE);
-        int movieId = DetailFragmentArgs.fromBundle(getArguments()).getMovieId();
+        favoriteViewModel.getIdsLiveData().observe(getViewLifecycleOwner(), set ->
+                toggleBtn(set, movieId));
         languageViewModel.getLangLiveData().observe(getViewLifecycleOwner(), pos -> {
                     Log.d(TAG, "" + pos);
                     setupObservers(
@@ -77,32 +82,38 @@ public class DetailFragment extends Fragment {
                         Objects.requireNonNull(languageViewModel.getLangLiveData().getValue()))
         );
 
-        favoriteViewModel.getFavoriteState().observe(getViewLifecycleOwner(), state -> {
-            if (state instanceof FavoriteState.Success){
-                Snackbar.make(binding.getRoot(), getString(R.string.favorites_success), Snackbar.LENGTH_SHORT)
-                        .show();
-            }else{
-                Snackbar.make(binding.getRoot(), getString(R.string.favorites_error), Snackbar.LENGTH_SHORT)
-                        .show();
+        favoriteViewModel.getFavoriteSnackBarState().observe(getViewLifecycleOwner(), state -> {
+            if (state instanceof FavoriteSnackBarState.Success) {
+                if (((FavoriteSnackBarState.Success) state).operation.equals("ins"))
+                    Snackbar.make(binding.getRoot(), getString(R.string.favorites_insert_success), Snackbar.LENGTH_SHORT)
+                            .show();
+                else {
+                    Snackbar.make(binding.getRoot(), getString(R.string.favorite_delete_success), Snackbar.LENGTH_SHORT)
+                            .show();
+                }
+            } else {
+                if (((FavoriteSnackBarState.Error) state).operation.equals("ins"))
+                    Snackbar.make(binding.getRoot(), getString(R.string.favorites_insert_error), Snackbar.LENGTH_SHORT)
+                            .show();
+                else {
+                    Snackbar.make(binding.getRoot(), getString(R.string.favorite_delete_error), Snackbar.LENGTH_SHORT)
+                            .show();
+                }
             }
         });
 
-        binding.watchLaterBtn.setOnClickListener(view2 -> {
-            if (!userSessionViewModel.checkUser()){
+        binding.favoriteBtn.setOnClickListener(view2 -> {
+            if (!userSessionViewModel.checkUser()) {
                 Snackbar.make(binding.getRoot(), getString(R.string.no_user_warning), Snackbar.LENGTH_SHORT)
                         .show();
+            } else {
+                Log.d(TAG, Objects.requireNonNull(data.getTitle()) + Objects.requireNonNull(data.getPosterPath()));
+                favoriteViewModel.changeFavoriteId(userSessionViewModel.getCurrentUser(), movieId,
+                        Objects.requireNonNull(languageViewModel.getLangLiveData().getValue()),
+                        Objects.requireNonNull(data.getTitle()),
+                        Objects.requireNonNull(data.getPosterPath()));
             }
-            else{
-                favoriteViewModel.insertFavorites(userSessionViewModel.getCurrentUser(), movieId);
-            }
-
         });
-    }
-
-    @Override
-    public void onDestroyView() {
-        super.onDestroyView();
-        binding = null;
     }
 
     private void updateUI(Movie movie) {
@@ -126,7 +137,9 @@ public class DetailFragment extends Fragment {
                 state -> {
                     Log.d(TAG, state.getClass().getSimpleName());
                     if (state instanceof SingleMovieUiState.Success) {
-                        updateUI(((SingleMovieUiState.Success) state).data);
+                        data = ((SingleMovieUiState.Success) state).data;
+
+                        updateUI(data);
                         errorUI(false);
                         loadingUI(false);
                     }
@@ -152,5 +165,22 @@ public class DetailFragment extends Fragment {
     private void loadingUI(boolean isLoading) {
         binding.progressBar.setVisibility(isLoading ? VISIBLE : GONE);
         binding.mainPart.setVisibility(!isLoading ? VISIBLE : GONE);
+    }
+
+    private void toggleBtn(HashSet<Integer> set, int movieId) {
+        boolean contains = set.contains(movieId);
+        binding.favoriteBtn.setSelected(contains);
+    }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        binding = null;
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        data = null;
     }
 }

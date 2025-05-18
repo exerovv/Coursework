@@ -25,8 +25,8 @@
                       <LayoutPositions>
                         <option name="myPosition">
                           <Point>
-                            <option name="x" value="-60" />
-                            <option name="y" value="68" />
+                            <option name="x" value="794" />
+                            <option name="y" value="12" />
                           </Point>
                         </option>
                       </LayoutPositions>
@@ -43,7 +43,7 @@
                         </option>
                         <option name="myPositions">
                           <map>
-                            <entry key="action_homeFragment_to_detailFragment">
+                            <entry key="to_movie_detail_fragment">
                               <value>
                                 <LayoutPositions />
                               </value>

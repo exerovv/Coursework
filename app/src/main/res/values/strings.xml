@@ -39,6 +39,10 @@
     <string name="warning">Warning</string>
     <string name="blank_overview">No overview yet</string>
     <string name="no_user_warning">Log in to add to favorites</string>
-    <string name="favorites_success">Added to favorites</string>
-    <string name="favorites_error">Error when adding to favorites</string>
+    <string name="favorites_insert_success">Added to favorites</string>
+    <string name="favorites_insert_error">Error when adding to favorites</string>
+    <string name="favorite_button_text">Favorite button</string>
+    <string name="favorites_warning">An error occurred when displaying favorites. Please, check internent connection</string>
+    <string name="favorite_delete_success">Удалено из избранных</string>
+    <string name="favorite_delete_error">Error when removing from favorites</string>
 </resources>

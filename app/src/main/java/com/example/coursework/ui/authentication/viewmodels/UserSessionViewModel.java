@@ -14,6 +14,10 @@ public class UserSessionViewModel extends ViewModel {
     }
 
     public String getCurrentUser(){
-        return Objects.requireNonNull(authRepository.getmAuth().getCurrentUser()).toString();
+        return Objects.requireNonNull(authRepository.getmAuth().getCurrentUser()).getUid();
+    }
+
+    public String getCurrentUserEmail(){
+        return Objects.requireNonNull(authRepository.getmAuth().getCurrentUser()).getEmail();
     }
 }

@@ -9,6 +9,7 @@ import okhttp3.Interceptor;
 import okhttp3.Request;
 import okhttp3.Response;
 
+//Interceptor для подмены запроса путем добавления api_key к запросу
 public class MovieInterceptor implements Interceptor {
     private static final String API_KEY = "4b104e9ab7bbf8b901f150ea9dd1eeee";
     @NonNull

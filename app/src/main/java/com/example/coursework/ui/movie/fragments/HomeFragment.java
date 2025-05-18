@@ -76,7 +76,7 @@ public class HomeFragment extends Fragment {
                 findNavController(requireActivity(), R.id.nav_host_fragment_container)
                         .navigate(HomeFragmentDirections.toMovieDetailFragment(movie.getId())));
 
-        popularMovieAdapter.addLoadStateListener(loadStates -> {
+        popularMovieAdapter.addLoadStateListener( loadStates -> {
             Log.d(TAG, loadStates.getRefresh().getClass().getSimpleName());
             boolean isLoading = loadStates.getRefresh() instanceof LoadState.Loading;
             boolean isError = loadStates.hasError();
@@ -85,7 +85,8 @@ public class HomeFragment extends Fragment {
                 homeViewModel.setIsError(false);
                 loadingUI(false);
             }
-            loadingUI(isLoading);
+            if (isLoading)
+                loadingUI(true);
             return null;
         });
     }
@@ -95,6 +96,7 @@ public class HomeFragment extends Fragment {
         super.onDestroyView();
         binding = null;
         popularMovieAdapter.detachCallback();
+//        popularMovieAdapter.removeLoadStateListener();
     }
 
     @Override
@@ -109,7 +111,6 @@ public class HomeFragment extends Fragment {
     }
 
     private void loadingUI(boolean isLoading){
-        binding.popularRecyclerView.setVisibility(!isLoading ? VISIBLE : GONE);
         binding.popularProgressBar.setVisibility(isLoading ? VISIBLE : GONE);
     }
 }

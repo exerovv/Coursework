@@ -1,4 +1,4 @@
-package com.example.coursework.ui.movie.adapters.utils;
+package com.example.coursework.utils;
 
 import android.view.View;
 

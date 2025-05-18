@@ -4,6 +4,7 @@ import com.google.gson.annotations.SerializedName;
 
 import java.io.Serializable;
 
+//DTO класс в который сериализуется ответ от api для конкретного фильма
 public class MovieDTO implements Serializable {
     @SerializedName("id")
     public Integer id;

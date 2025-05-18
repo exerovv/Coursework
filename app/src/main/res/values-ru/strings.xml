@@ -28,12 +28,16 @@
     <string name="new_password">Новый пароль</string>
     <string name="change_password_fragment_title">Изменение пароля</string>
     <string name="nothing_was_found">Ничего не нашлось</string>
-    <string name="check_internet_connection_warning">Провертье подключение к интернету</string>
+    <string name="check_internet_connection_warning">Проверьте подключение к интернету</string>
     <string name="update">Обновить</string>
     <string name="home">Главная</string>
     <string name="warning">Предупреждение</string>
     <string name="blank_overview">Описание еще не добавлено</string>
     <string name="no_user_warning">Авторизуйтесь, чтобы добавить в избранное</string>
-    <string name="favorites_success">Добавлено в избарнные</string>
-    <string name="favorites_error">Ошибка при добавлении в избранное</string>
+    <string name="favorites_insert_success">Добавлено в избарнное</string>
+    <string name="favorites_insert_error">Ошибка при добавлении в избранное</string>
+    <string name="favorite_button_text">Кнопка избранного</string>
+    <string name="favorites_warning">Возникла ошибка при отображении избранного. Пожалуйста, проверьте интернет соединение</string>
+    <string name="favorite_delete_success">Удалено из избранных</string>
+    <string name="favorite_delete_error">Ошибка при удалении из избранных</string>
 </resources>

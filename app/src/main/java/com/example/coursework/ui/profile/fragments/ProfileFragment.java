@@ -55,13 +55,19 @@ public class ProfileFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        binding.getRoot().post(() -> {
-            if (!userSessionViewModel.checkUser()){
-                Log.d("ProfileFragment", "navigation executed");
-                findNavController(requireActivity(), R.id.nav_host_fragment_container)
-                        .navigate(ProfileFragmentDirections.toLoginFragment());
-            }
-        });
+        if (!userSessionViewModel.checkUser()){
+            Log.d("ProfileFragment", "navigation executed");
+            findNavController(requireActivity(), R.id.nav_host_fragment_container)
+                    .navigate(ProfileFragmentDirections.toLoginFragment());
+        }
+//        binding.getRoot().post(() -> {
+//            if (!userSessionViewModel.checkUser()){
+//                Log.d("ProfileFragment", "navigation executed");
+//                findNavController(requireActivity(), R.id.nav_host_fragment_container)
+//                        .navigate(ProfileFragmentDirections.toLoginFragment());
+//            }
+//        });
+        if (userSessionViewModel.checkUser()) binding.profileEmail.setText(userSessionViewModel.getCurrentUserEmail());
         Spinner spinner = binding.languageChangeSpinner;
         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(
                 requireContext(),
