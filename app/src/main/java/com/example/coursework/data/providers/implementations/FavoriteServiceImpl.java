@@ -23,8 +23,8 @@ public class FavoriteServiceImpl {
     private FavoriteService favoriteService;
     private final String TAG = FavoriteServiceImpl.class.getSimpleName();
 
-//    private static final String BASE_URL = "http://172.20.10.4:8080/favorites/";
-    private static final String BASE_URL = "http://10.0.2.2:8080/favorites/";
+    private static final String BASE_URL = "http://172.20.10.4:8080/favorites/";
+//    private static final String BASE_URL = "http://10.0.2.2:8080/favorites/";
 
     public FavoriteServiceImpl() {
         if (favoriteService == null){

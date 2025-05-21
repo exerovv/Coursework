@@ -57,27 +57,32 @@ public class FavoritesFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        binding.favoriteRecyclerView.setAdapter(mAdapter);
-        favoriteViewModel.getIsError().observe(getViewLifecycleOwner(), this::errorUI);
+        if (userSessionViewModel.checkUser()){
+            binding.favoriteWarning.setVisibility(GONE);
+            binding.favoriteRecyclerView.setAdapter(mAdapter);
+            favoriteViewModel.getIsError().observe(getViewLifecycleOwner(), this::errorUI);
 
-        mAdapter.attachCallback((movie, view1) ->
-                findNavController(requireActivity(), R.id.nav_host_fragment_container)
-                        .navigate(FavoritesFragmentDirections.toMovieDetailFragment(movie.getId())));
+            mAdapter.attachCallback((movie, view1) ->
+                    findNavController(requireActivity(), R.id.nav_host_fragment_container)
+                            .navigate(FavoritesFragmentDirections.toMovieDetailFragment(movie.getId())));
 
-        languageViewModel.getLangLiveData().observe(getViewLifecycleOwner(), integer ->
-                setupObservers(userSessionViewModel.getCurrentUser(), integer));
+            languageViewModel.getLangLiveData().observe(getViewLifecycleOwner(), integer ->
+                    setupObservers(userSessionViewModel.getCurrentUser(), integer));
 
-        favoriteViewModel.getFavoriteList().observe(getViewLifecycleOwner(), data -> {
-                    diffUtil = new MovieDiffUtils(data, mAdapter.mDataList);
-                    DiffUtil.DiffResult result = DiffUtil.calculateDiff(diffUtil);
-                    mAdapter.setFavoriteList(data);
-                    result.dispatchUpdatesTo(mAdapter);
-                }
-        );
+            favoriteViewModel.getFavoriteList().observe(getViewLifecycleOwner(), data -> {
+                        diffUtil = new MovieDiffUtils(data, mAdapter.mDataList);
+                        DiffUtil.DiffResult result = DiffUtil.calculateDiff(diffUtil);
+                        mAdapter.setFavoriteList(data);
+                        result.dispatchUpdatesTo(mAdapter);
+                    }
+            );
 
-        binding.warningBtn.setOnClickListener(view2 -> favoriteViewModel.fetchFavorites(
-                userSessionViewModel.getCurrentUser(), Objects.requireNonNull(languageViewModel.getLangLiveData().getValue()))
-        );
+            binding.warningBtn.setOnClickListener(view2 -> favoriteViewModel.fetchFavorites(
+                    userSessionViewModel.getCurrentUser(), Objects.requireNonNull(languageViewModel.getLangLiveData().getValue()))
+            );
+        }else{
+            binding.favoriteWarning.setVisibility(VISIBLE);
+        }
     }
 
     @Override

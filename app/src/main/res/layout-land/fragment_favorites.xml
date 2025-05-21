@@ -7,7 +7,15 @@
     android:orientation="vertical"
     android:padding="8dp"
     tools:context=".ui.favorites.fragments.FavoritesFragment">
-
+    <TextView
+        android:id="@+id/favorite_warning"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:text="@string/favorite_fragment_warning"
+        android:gravity="center"
+        android:textStyle="bold"
+        android:textSize="20sp"
+        android:visibility="gone"/>
     <ProgressBar
         android:id="@+id/favorite_progressBar"
         android:layout_width="wrap_content"

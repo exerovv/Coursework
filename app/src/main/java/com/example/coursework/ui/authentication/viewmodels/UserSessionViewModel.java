@@ -3,6 +3,7 @@ package com.example.coursework.ui.authentication.viewmodels;
 import androidx.lifecycle.ViewModel;
 
 import com.example.coursework.data.providers.implementations.AuthRepositoryImpl;
+import com.google.firebase.auth.FirebaseUser;
 
 import java.util.Objects;
 
@@ -14,7 +15,8 @@ public class UserSessionViewModel extends ViewModel {
     }
 
     public String getCurrentUser(){
-        return Objects.requireNonNull(authRepository.getmAuth().getCurrentUser()).getUid();
+        FirebaseUser user  = authRepository.getmAuth().getCurrentUser();
+        return user != null ? user.getUid() : "";
     }
 
     public String getCurrentUserEmail(){

@@ -18,11 +18,13 @@ import com.example.coursework.ui.authentication.viewmodels.AuthViewModel;
 import com.example.coursework.R;
 import com.example.coursework.databinding.FragmentLoginBinding;
 import com.example.coursework.ui.authentication.viewmodels.states.AuthState;
+import com.example.coursework.ui.favorites.viewmodels.FavoriteViewModel;
 
 public class LoginFragment extends Fragment {
     private FragmentLoginBinding binding = null;
 
     private AuthViewModel authViewModel;
+    private FavoriteViewModel favoriteViewModel;
 
     public LoginFragment() {}
 
@@ -30,6 +32,7 @@ public class LoginFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         authViewModel = new ViewModelProvider(this).get(AuthViewModel.class);
+        favoriteViewModel = new ViewModelProvider(requireActivity()).get(FavoriteViewModel.class);
     }
 
     @Override
@@ -60,8 +63,10 @@ public class LoginFragment extends Fragment {
     private void setupObservers(){
         authViewModel.getAuthState().observe(getViewLifecycleOwner(), state -> {
             if (state instanceof AuthState.Success){
+                favoriteViewModel.setExit(false);
                 findNavController(requireActivity(), R.id.nav_host_fragment_container)
                         .navigate(LoginFragmentDirections.toProfileFragment());
+
             }
             if (state instanceof AuthState.Loading){
                 binding.passwordLogin.setEnabled(false);

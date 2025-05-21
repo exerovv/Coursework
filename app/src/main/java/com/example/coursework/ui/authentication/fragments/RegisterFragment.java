@@ -19,10 +19,13 @@ import com.example.coursework.ui.authentication.viewmodels.AuthViewModel;
 import com.example.coursework.R;
 import com.example.coursework.databinding.FragmentRegisterBinding;
 import com.example.coursework.ui.authentication.viewmodels.states.AuthState;
+import com.example.coursework.ui.favorites.viewmodels.FavoriteViewModel;
 
 public class RegisterFragment extends Fragment {
     private FragmentRegisterBinding binding;
     private AuthViewModel authViewModel;
+    private FavoriteViewModel favoriteViewModel;
+
 
     public RegisterFragment() {}
 
@@ -30,6 +33,7 @@ public class RegisterFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         authViewModel = new ViewModelProvider(this).get(AuthViewModel.class);
+        favoriteViewModel = new ViewModelProvider(requireActivity()).get(FavoriteViewModel.class);
     }
 
     @Override
@@ -60,6 +64,7 @@ public class RegisterFragment extends Fragment {
     private void setupObservers(){
         authViewModel.getAuthState().observe(getViewLifecycleOwner(), state -> {
             if (state instanceof AuthState.Success){
+                favoriteViewModel.setExit(false);
                 findNavController(requireActivity(), R.id.nav_host_fragment_container)
                         .navigate(RegisterFragmentDirections.toProfileFragment());
             }

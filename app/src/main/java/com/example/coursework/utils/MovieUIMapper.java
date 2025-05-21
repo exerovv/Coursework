@@ -14,7 +14,7 @@ import java.util.Objects;
 public class MovieUIMapper {
     //Метод для изменения цвета рейтинга в зависимости от значения
     public static int getRatingColor(String rating){
-        double filmRate = Double.parseDouble(rating.replace(",", "."));
+        double filmRate = Double.parseDouble(rating.replace(",", ".").replaceAll("[A-Za-zА-Яа-яЁё]", "0"));
         if (filmRate < 4.5) return Color.RED;
         else if (filmRate >= 4.5 && filmRate < 6.5) return Color.GRAY;
         else return Color.GREEN;

@@ -5,7 +5,6 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:gravity="center"
     android:padding="8dp"
     tools:context=".ui.movie.fragments.HomeFragment">
 
@@ -23,8 +22,9 @@
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
         android:indeterminate="true"
+        android:layout_gravity="center"
         android:indeterminateTint="@color/orange"
-        android:visibility="gone" />
+        android:visibility="visible" />
 
     <LinearLayout
         android:id="@+id/warning"

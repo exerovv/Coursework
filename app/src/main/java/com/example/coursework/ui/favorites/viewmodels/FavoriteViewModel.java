@@ -1,5 +1,7 @@
 package com.example.coursework.ui.favorites.viewmodels;
 
+import android.util.Log;
+
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
@@ -19,6 +21,7 @@ import java.util.Objects;
 import io.reactivex.rxjava3.disposables.Disposable;
 
 public class FavoriteViewModel extends ViewModel {
+    private final String TAG = FavoriteViewModel.class.getSimpleName();
     private final FavoriteServiceImpl favoriteService = new FavoriteServiceImpl();
     private final FavoriteFieldsState favoriteFieldsState = new FavoriteFieldsState();
     private final SingleLiveEvent<FavoriteSnackBarState> favoriteSnackBarState = new SingleLiveEvent<>();
@@ -39,6 +42,18 @@ public class FavoriteViewModel extends ViewModel {
         }
     }
 
+    private final MutableLiveData<Boolean> exit = new MutableLiveData<>(false);
+
+    public LiveData<Boolean> getExit() {
+        return exit;
+    }
+
+    public void setExit(boolean flag) {
+        if (flag != Boolean.TRUE.equals(exit.getValue())) {
+            exit.setValue(flag);
+        }
+    }
+
     private final MutableLiveData<HashSet<Integer>> idsLiveData = new MutableLiveData<>(new HashSet<>());
 
     public LiveData<HashSet<Integer>> getIdsLiveData() {
@@ -46,7 +61,17 @@ public class FavoriteViewModel extends ViewModel {
     }
 
     public void setFavoriteId(String user) {
-        if (Objects.requireNonNull(idsLiveData.getValue()).isEmpty()) {
+        if (Objects.requireNonNull(idsLiveData.getValue()).isEmpty()
+        || !Objects.equals(user, favoriteFieldsState.getUser())
+        || user.isEmpty()) {
+            Log.d(TAG, user);
+            if (!Objects.equals(user, favoriteFieldsState.getUser()))
+                favoriteFieldsState.setUser(user);
+            if (user.isEmpty()){
+                favoriteFieldsState.setUser(null);
+                idsLiveData.postValue(new HashSet<>());
+                return;
+            }
             fetchFavoritesIds(user);
         }
     }
@@ -61,10 +86,17 @@ public class FavoriteViewModel extends ViewModel {
 
     public LiveData<FavoriteState> getFavoritesLiveData(String user, int pos) {
         if ((favoriteState.getValue() instanceof FavoriteState.Default)
-                || pos != favoriteFieldsState.getLastPos()) {
+                || pos != favoriteFieldsState.getLastPos()
+        || !Objects.equals(user, favoriteFieldsState.getUser())) {
             if (!(favoriteState.getValue() instanceof FavoriteState.Default))
                 subscribeMovies.dispose();
-            favoriteFieldsState.setLastPos(pos);
+            if (pos != favoriteFieldsState.getLastPos())
+                favoriteFieldsState.setLastPos(pos);
+            if (!Objects.equals(user, favoriteFieldsState.getUser())){
+                favoriteFieldsState.setUser(user);
+                fetchFavoritesIds(user);
+            }
+
             fetchFavorites(user, pos);
         }
         return favoriteState;

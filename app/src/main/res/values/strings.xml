@@ -45,4 +45,5 @@
     <string name="favorites_warning">An error occurred when displaying favorites. Please, check internent connection</string>
     <string name="favorite_delete_success">Removed from favorites</string>
     <string name="favorite_delete_error">Error when removing from favorites</string>
+    <string name="favorite_fragment_warning">Log in to view your favorites</string>
 </resources>

@@ -9,6 +9,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.navigation.Navigation;
 
 import android.text.method.ScrollingMovementMethod;
 import android.util.Log;
@@ -44,9 +45,6 @@ public class DetailFragment extends Fragment {
 
     private final String TAG = DetailFragment.class.getSimpleName();
 
-    public DetailFragment() {
-    }
-
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -66,6 +64,13 @@ public class DetailFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        favoriteViewModel.getExit().observe(getViewLifecycleOwner(), exit -> {
+            if(exit){
+                favoriteViewModel.setExit(false);
+                Navigation.findNavController(requireActivity(), R.id.nav_host_fragment_container)
+                        .popBackStack(R.id.detailFragment, true);
+            }
+        });
         favoriteViewModel.getIdsLiveData().observe(getViewLifecycleOwner(), set ->
                 toggleBtn(set, movieId));
         languageViewModel.getLangLiveData().observe(getViewLifecycleOwner(), pos -> {

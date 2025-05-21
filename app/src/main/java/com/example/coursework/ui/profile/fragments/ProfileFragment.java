@@ -24,14 +24,17 @@ import com.example.coursework.ui.authentication.viewmodels.AuthViewModel;
 import com.example.coursework.R;
 import com.example.coursework.databinding.FragmentProfileBinding;
 import com.example.coursework.ui.authentication.viewmodels.UserSessionViewModel;
+import com.example.coursework.ui.favorites.viewmodels.FavoriteViewModel;
 import com.example.coursework.ui.profile.viewmodels.LanguageViewModel;
 import com.example.coursework.ui.authentication.fragments.utils.AlertDialogCallback;
 
 
 public class ProfileFragment extends Fragment {
+    private final String TAG = ProfileFragment.class.getSimpleName();
     private AuthViewModel authViewModel;
     private UserSessionViewModel userSessionViewModel;
     private LanguageViewModel languageViewModel;
+    private FavoriteViewModel favoriteViewModel;
     private LogoutConfirmationFragmentDialog logoutConfirmationFragmentDialog;
     private FragmentProfileBinding binding = null;
 
@@ -43,6 +46,7 @@ public class ProfileFragment extends Fragment {
         authViewModel = new ViewModelProvider(requireActivity()).get(AuthViewModel.class);
         userSessionViewModel = new ViewModelProvider(requireActivity()).get(UserSessionViewModel.class);
         languageViewModel = new ViewModelProvider(requireActivity()).get(LanguageViewModel.class);
+        favoriteViewModel = new ViewModelProvider(requireActivity()).get(FavoriteViewModel.class);
         logoutConfirmationFragmentDialog = new LogoutConfirmationFragmentDialog();
     }
 
@@ -60,13 +64,6 @@ public class ProfileFragment extends Fragment {
             findNavController(requireActivity(), R.id.nav_host_fragment_container)
                     .navigate(ProfileFragmentDirections.toLoginFragment());
         }
-//        binding.getRoot().post(() -> {
-//            if (!userSessionViewModel.checkUser()){
-//                Log.d("ProfileFragment", "navigation executed");
-//                findNavController(requireActivity(), R.id.nav_host_fragment_container)
-//                        .navigate(ProfileFragmentDirections.toLoginFragment());
-//            }
-//        });
         if (userSessionViewModel.checkUser()) binding.profileEmail.setText(userSessionViewModel.getCurrentUserEmail());
         Spinner spinner = binding.languageChangeSpinner;
         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(
@@ -98,6 +95,9 @@ public class ProfileFragment extends Fragment {
                 authViewModel.logout();
                 findNavController(requireActivity(), R.id.nav_host_fragment_container)
                         .navigate(ProfileFragmentDirections.toLoginFragment());
+                Log.d(TAG, userSessionViewModel.getCurrentUser());
+                favoriteViewModel.setFavoriteId(userSessionViewModel.getCurrentUser());
+                favoriteViewModel.setExit(true);
                 Log.d("ProfileFragment", "logout navigation executed");
             }
             @Override

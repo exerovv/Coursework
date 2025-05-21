@@ -36,7 +36,7 @@ public class Movie {
     }
 
     public String getRating() {
-        return String.format(Locale.US, "%.1f", rating);
+        return String.format(Locale.US, "%.1f", rating).replaceAll("[A-Za-zА-Яа-яЁё]", "0.0");
     }
 
     @Override

@@ -25,7 +25,8 @@ public class MainActivity extends AppCompatActivity {
         binding = ActivityMainBinding.inflate(getLayoutInflater());
         FavoriteViewModel favoriteViewModel = new ViewModelProvider(this).get(FavoriteViewModel.class);
         UserSessionViewModel userSessionViewModel = new ViewModelProvider(this).get(UserSessionViewModel.class);
-        favoriteViewModel.setFavoriteId(userSessionViewModel.getCurrentUser());
+        if (userSessionViewModel.checkUser())
+            favoriteViewModel.setFavoriteId(userSessionViewModel.getCurrentUser());
         setContentView(binding.getRoot());
         //Устанавливем кастомный Aoolbar вместо системного ActionBar
         setSupportActionBar(binding.toolbar);
@@ -37,16 +38,16 @@ public class MainActivity extends AppCompatActivity {
         //не появлялась на указанных экранах
         AppBarConfiguration appBarConfiguration = new AppBarConfiguration.Builder(
                 Set.of(
-                        R.id.homeFragment,
-                        R.id.searchFragment,
-                        R.id.favoritesFragment,
+                        R.id.home_graph,
+                        R.id.search_graph,
+                        R.id.favorites_graph,
                         R.id.profileFragment)).build();
         //Обработка повторных нажатий на кнопки меню. Добавлено для того чтобы вернуться с фрагмента деталей
         //на родительский
         binding.bottomBar.setOnItemReselectedListener(item -> {
-            if (item.getItemId() == R.id.homeFragment) controller.popBackStack(R.id.homeFragment, false);
-            if (item.getItemId() == R.id.searchFragment) controller.popBackStack(R.id.searchFragment, false);
-            if (item.getItemId() == R.id.favoritesFragment) controller.popBackStack(R.id.favoritesFragment, false);
+            if (item.getItemId() == R.id.home_graph) controller.popBackStack(R.id.homeFragment, false);
+            if (item.getItemId() == R.id.search_graph) controller.popBackStack(R.id.searchFragment, false);
+            if (item.getItemId() == R.id.favorites_graph) controller.popBackStack(R.id.favoritesFragment, false);
             if (item.getItemId() == R.id.profileFragment) controller.popBackStack(R.id.profileFragment, false);
         });
 
